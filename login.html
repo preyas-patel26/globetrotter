@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GlobeTrotter - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#7bd1fa",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-container": "#4c2970",
+                    "on-primary-fixed": "#003041",
+                    "tertiary-container": "#d6adff",
+                    "on-surface": "#252f43",
+                    "on-background": "#252f43",
+                    "primary-dim": "#005672",
+                    "inverse-primary": "#7bd1fa",
+                    "tertiary-fixed-dim": "#c8a0f0",
+                    "on-secondary-container": "#215065",
+                    "inverse-on-surface": "#939db6",
+                    "surface-container-high": "#d8e2ff",
+                    "on-tertiary-fixed": "#361059",
+                    "on-surface-variant": "#525b72",
+                    "secondary": "#346176",
+                    "secondary-container": "#b1ddf7",
+                    "primary": "#006382",
+                    "tertiary": "#6f4b94",
+                    "on-tertiary": "#fbefff",
+                    "surface-tint": "#006382",
+                    "on-secondary-fixed": "#063d51",
+                    "error-container": "#fb5151",
+                    "on-error-container": "#570008",
+                    "secondary-fixed": "#b1ddf7",
+                    "on-secondary": "#e6f5ff",
+                    "surface-variant": "#cfddff",
+                    "error-dim": "#9f0519",
+                    "on-error": "#ffefee",
+                    "error": "#b31b25",
+                    "outline": "#6d778e",
+                    "on-tertiary-fixed-variant": "#55327a",
+                    "on-secondary-fixed-variant": "#2c596f",
+                    "on-primary-container": "#00465d",
+                    "surface-container": "#e0e8ff",
+                    "surface-bright": "#f5f6ff",
+                    "surface-dim": "#c4d4fb",
+                    "inverse-surface": "#040e21",
+                    "background": "#f5f6ff",
+                    "on-primary-fixed-variant": "#004f69",
+                    "tertiary-dim": "#623f87",
+                    "on-primary": "#e5f5ff",
+                    "surface-container-highest": "#cfddff",
+                    "surface-container-low": "#edf0ff",
+                    "outline-variant": "#a3adc7",
+                    "secondary-dim": "#27556a",
+                    "surface": "#f5f6ff",
+                    "tertiary-fixed": "#d6adff",
+                    "primary-fixed-dim": "#6cc3eb",
+                    "secondary-fixed-dim": "#a3cfe8",
+                    "primary-container": "#7bd1fa"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "display": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(123, 209, 250, 0.15);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+        .input-glass {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(123, 209, 250, 0.2);
+            transition: all 0.3s ease;
+        }
+        .input-glass:focus {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(123, 209, 250, 0.6);
+            box-shadow: 0 0 15px rgba(123, 209, 250, 0.2);
+        }
+        .btn-primary {
+            background: rgba(123, 209, 250, 0.8);
+            border: 1px solid rgba(123, 209, 250, 1);
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover {
+            background: rgba(123, 209, 250, 0.95);
+            box-shadow: 0 0 20px rgba(123, 209, 250, 0.3);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen font-body text-on-surface antialiased flex">
+<!-- Split Layout Container -->
+<main class="w-full min-h-screen flex flex-col md:flex-row">
+<!-- Left Side: Image / Brand Anchor -->
+<section class="hidden md:flex flex-1 relative items-end p-12">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="A breathtaking, wide-angle landscape photograph of a serene glacier lake reflecting snow-capped mountains under a clear, bright morning sky. The lighting is crisp and ethereal, emphasizing icy blues, bright whites, and deep cool shadows, perfectly aligning with a premium light-mode travel aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6BjyWOb30RDU8ecYdNO_bmEZDT2oLHo7u0TbpHF5b9PVMTqcoUiEw-2zIZSEz1aHV5BGBtz5ylPsSPg61SJ_nd9_SolJCQmKs3_wpvVbJJeIghBlWkzFOabsi9TYg3wZLMhbS__ofHk7cjIcIqfsCKuCgbpu2U5fAD5rn_5dciUdGFhLx2mG6IzA5vSdHrgO9WhMWSC4YSuFrC_5cpaunborR2ygX3IeWg4FGgq7q2MU_9QrRP7kG"/>
+<div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-lg">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-4xl text-primary-fixed" style="font-variation-settings: 'FILL' 1;">language</span>
+<h1 class="text-3xl font-display font-bold text-surface-container-lowest tracking-tight">GlobeTrotter</h1>
+</div>
+<h2 class="text-4xl font-headline font-semibold text-surface-container-lowest leading-tight">
+                    Discover the world, effortlessly.
+                </h2>
+<p class="mt-4 text-surface-container-low/90 text-lg">
+                    Your journey to breathtaking destinations begins here. Access your personalized travel itineraries and explore new horizons.
+                </p>
+</div>
+</section>
+<!-- Right Side: Login Form -->
+<section class="flex-1 flex flex-col justify-center items-center p-6 md:p-12 relative overflow-hidden">
+<!-- Subtle atmospheric background elements for right side -->
+<div class="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary-container/20 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-secondary-container/20 rounded-full blur-[80px] pointer-events-none"></div>
+<div class="w-full max-w-md relative z-10">
+<!-- Mobile Logo (Visible only on small screens) -->
+<div class="flex md:hidden items-center justify-center gap-2 mb-8">
+<span class="material-symbols-outlined text-3xl text-primary" style="font-variation-settings: 'FILL' 1;">language</span>
+<h1 class="text-2xl font-display font-bold text-primary tracking-tight">GlobeTrotter</h1>
+</div>
+<div class="glass-card rounded-xl p-8 w-full">
+<div class="mb-8">
+<h2 class="text-2xl font-headline font-bold text-on-surface mb-2">Welcome back</h2>
+<p class="text-on-surface-variant text-sm">Please enter your details to sign in.</p>
+</div>
+<form class="space-y-5" onsubmit="event.preventDefault();">
+<!-- Email Input -->
+<div>
+<label class="block text-sm font-medium text-on-surface mb-1.5" for="email">Email</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline-variant text-sm">mail</span>
+</div>
+<input class="input-glass block w-full pl-10 pr-3 py-2.5 rounded-lg text-on-surface placeholder-outline-variant focus:ring-0 sm:text-sm" id="email" name="email" placeholder="Enter your email" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div>
+<label class="block text-sm font-medium text-on-surface mb-1.5" for="password">Password</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline-variant text-sm">lock</span>
+</div>
+<input class="input-glass block w-full pl-10 pr-3 py-2.5 rounded-lg text-on-surface placeholder-outline-variant focus:ring-0 sm:text-sm" id="password" name="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- Remember & Forgot -->
+<div class="flex items-center justify-between mt-4">
+<div class="flex items-center">
+<input class="h-4 w-4 rounded border-outline-variant text-primary focus:ring-primary-container bg-surface-container-lowest/50" id="remember-me" name="remember-me" type="checkbox"/>
+<label class="ml-2 block text-sm text-on-surface-variant" for="remember-me">
+                                    Remember me
+                                </label>
+</div>
+<div class="text-sm">
+<a class="font-medium text-primary hover:text-primary-dim transition-colors" href="#">
+                                    Forgot password?
+                                </a>
+</div>
+</div>
+<!-- Submit Button -->
+<div class="pt-2">
+<button class="btn-primary w-full flex justify-center py-2.5 px-4 rounded-lg text-on-primary-fixed font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-container" type="submit">
+                                Login
+                            </button>
+</div>
+</form>
+<!-- Divider -->
+<div class="mt-8 relative">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant/30"></div>
+</div>
+<div class="relative flex justify-center text-sm">
+<span class="px-2 bg-surface-bright text-on-surface-variant rounded-full text-xs font-medium">Or continue with</span>
+</div>
+</div>
+<!-- Social Login -->
+<div class="mt-6 grid grid-cols-2 gap-3">
+<button class="flex justify-center items-center py-2.5 px-4 border border-outline-variant/30 rounded-lg bg-surface-container-lowest/60 hover:bg-surface-container-lowest/80 text-sm font-medium text-on-surface transition-colors shadow-sm" type="button">
+<svg class="h-5 w-5 mr-2" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+                            Google
+                        </button>
+<button class="flex justify-center items-center py-2.5 px-4 border border-outline-variant/30 rounded-lg bg-surface-container-lowest/60 hover:bg-surface-container-lowest/80 text-sm font-medium text-on-surface transition-colors shadow-sm" type="button">
+<svg class="h-5 w-5 mr-2 text-on-surface" fill="currentColor" viewbox="0 0 24 24">
+<path d="M16.365 7.14c-1.3-.062-2.836.786-3.738 1.847-.79.917-1.353 2.188-1.127 3.418 1.43.1 2.873-.703 3.704-1.683.842-.98 1.39-2.262 1.16-3.582zm-4.4 3.79c-1.74-1.18-3.41-.85-4.47-.85-2.31 0-4.42 1.4-5.6 3.44-2.39 4.15-.6 10.3 1.73 13.68 1.14 1.64 2.48 3.5 4.26 3.43 1.72-.07 2.37-1.12 4.45-1.12 2.07 0 2.68 1.12 4.47 1.1 1.84-.03 3.02-1.71 4.15-3.37 1.3-1.9 1.84-3.74 1.87-3.84-.04-.01-3.6-1.38-3.63-5.5-.02-3.45 2.82-5.1 2.94-5.18-1.62-2.37-4.14-2.68-5.02-2.77z"></path>
+</svg>
+                            Apple
+                        </button>
+</div>
+</div>
+<!-- Create Account Link -->
+<div class="mt-8 text-center">
+<p class="text-sm text-on-surface-variant">
+                        Don't have an account? 
+                        <a class="font-semibold text-primary hover:text-primary-dim hover:underline transition-colors" href="#">
+                            Create account
+                        </a>
+</p>
+</div>
+</div>
+</section>
+</main>
+</body></html>
