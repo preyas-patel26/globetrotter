@@ -8,6 +8,76 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface": "#f5f6ff",
+              "on-surface": "#252f43",
+              "tertiary": "#6f4b94",
+              "secondary-fixed": "#b1ddf7",
+              "on-tertiary-container": "#4c2970",
+              "on-secondary-fixed-variant": "#2c596f",
+              "tertiary-fixed": "#d6adff",
+              "outline": "#6d778e",
+              "on-secondary-container": "#215065",
+              "on-tertiary-fixed": "#361059",
+              "on-primary-fixed-variant": "#004f69",
+              "surface-container": "#e0e8ff",
+              "surface-container-high": "#d8e2ff",
+              "tertiary-container": "#d6adff",
+              "on-surface-variant": "#525b72",
+              "inverse-primary": "#7bd1fa",
+              "surface-tint": "#006382",
+              "on-background": "#252f43",
+              "background": "#f5f6ff",
+              "on-primary-container": "#00465d",
+              "inverse-on-surface": "#939db6",
+              "secondary-dim": "#27556a",
+              "on-secondary": "#e6f5ff",
+              "surface-container-highest": "#cfddff",
+              "inverse-surface": "#040e21",
+              "primary-container": "#7bd1fa",
+              "tertiary-fixed-dim": "#c8a0f0",
+              "surface-bright": "#f5f6ff",
+              "outline-variant": "#a3adc7",
+              "primary-dim": "#005672",
+              "primary-fixed-dim": "#6cc3eb",
+              "on-secondary-fixed": "#063d51",
+              "primary": "#006382",
+              "secondary-container": "#b1ddf7",
+              "surface-variant": "#cfddff",
+              "surface-container-low": "#edf0ff",
+              "error-dim": "#9f0519",
+              "on-tertiary": "#fbefff",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed": "#003041",
+              "on-primary": "#e5f5ff",
+              "on-tertiary-fixed-variant": "#55327a",
+              "on-error": "#ffefee",
+              "surface-dim": "#c4d4fb",
+              "secondary-fixed-dim": "#a3cfe8",
+              "primary-fixed": "#7bd1fa",
+              "error": "#b31b25",
+              "secondary": "#346176",
+              "on-error-container": "#570008",
+              "tertiary-dim": "#623f87",
+              "error-container": "#fb5151",
+              "sunset-orange": "#f97316"
+            },
+            fontFamily: {
+              headline: ["Inter", "sans-serif"],
+              display: ["Inter", "sans-serif"],
+              body: ["Inter", "sans-serif"],
+              label: ["Inter", "sans-serif"]
+            }
+          }
+        }
+      }
+    </script>
   </head>
   <body class="bg-background text-on-background font-body min-h-screen antialiased selection:bg-primary-container selection:text-on-primary-container">
     <div id="root"></div>
