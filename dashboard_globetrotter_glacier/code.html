@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GlobeTrotter Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f5f6ff",
+                        "on-surface": "#252f43",
+                        "tertiary": "#6f4b94",
+                        "secondary-fixed": "#b1ddf7",
+                        "on-tertiary-container": "#4c2970",
+                        "on-secondary-fixed-variant": "#2c596f",
+                        "tertiary-fixed": "#d6adff",
+                        "outline": "#6d778e",
+                        "on-secondary-container": "#215065",
+                        "on-tertiary-fixed": "#361059",
+                        "on-primary-fixed-variant": "#004f69",
+                        "surface-container": "#e0e8ff",
+                        "surface-container-high": "#d8e2ff",
+                        "tertiary-container": "#d6adff",
+                        "on-surface-variant": "#525b72",
+                        "inverse-primary": "#7bd1fa",
+                        "surface-tint": "#006382",
+                        "on-background": "#252f43",
+                        "background": "#f5f6ff",
+                        "on-primary-container": "#00465d",
+                        "inverse-on-surface": "#939db6",
+                        "secondary-dim": "#27556a",
+                        "on-secondary": "#e6f5ff",
+                        "surface-container-highest": "#cfddff",
+                        "inverse-surface": "#040e21",
+                        "primary-container": "#7bd1fa",
+                        "tertiary-fixed-dim": "#c8a0f0",
+                        "surface-bright": "#f5f6ff",
+                        "outline-variant": "#a3adc7",
+                        "primary-dim": "#005672",
+                        "primary-fixed-dim": "#6cc3eb",
+                        "on-secondary-fixed": "#063d51",
+                        "primary": "#006382",
+                        "secondary-container": "#b1ddf7",
+                        "surface-variant": "#cfddff",
+                        "surface-container-low": "#edf0ff",
+                        "error-dim": "#9f0519",
+                        "on-tertiary": "#fbefff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#003041",
+                        "on-primary": "#e5f5ff",
+                        "on-tertiary-fixed-variant": "#55327a",
+                        "on-error": "#ffefee",
+                        "surface-dim": "#c4d4fb",
+                        "secondary-fixed-dim": "#a3cfe8",
+                        "primary-fixed": "#7bd1fa",
+                        "error": "#b31b25",
+                        "secondary": "#346176",
+                        "on-error-container": "#570008",
+                        "tertiary-dim": "#623f87",
+                        "error-container": "#fb5151"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter", "sans-serif"],
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(125, 211, 252, 0.15);
+        }
+        .glow-effect {
+            box-shadow: 0 0 30px rgba(125, 211, 252, 0.1);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body min-h-screen antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- Side Navigation Shell -->
+<nav class="hidden md:flex flex-col h-full py-6 w-[280px] h-screen fixed left-0 top-0 border-r border-outline-variant bg-surface-container-lowest shadow-[0px_4px_20px_rgba(30,41,59,0.05)] z-50">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-headline font-bold text-xl">
+                G
+            </div>
+<div>
+<h1 class="font-headline font-bold text-primary text-xl tracking-tight">GlobeTrotter</h1>
+<p class="text-xs text-outline font-label uppercase tracking-wider">Travel Planner</p>
+</div>
+</div>
+<div class="flex-1 px-4 space-y-2">
+<!-- Active Tab: Dashboard -->
+<a class="flex items-center gap-3 bg-primary-container/10 text-primary font-bold border-l-4 border-primary px-4 py-3 rounded-r-lg hover:bg-surface-container-low transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined filled">dashboard</span>
+<span class="font-label">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-secondary hover:text-primary px-4 py-3 transition-colors hover:bg-surface-container-low rounded-r-lg active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label">My Trips</span>
+</a>
+<a class="flex items-center gap-3 text-secondary hover:text-primary px-4 py-3 transition-colors hover:bg-surface-container-low rounded-r-lg active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-label">Plan a Trip</span>
+</a>
+<a class="flex items-center gap-3 text-secondary hover:text-primary px-4 py-3 transition-colors hover:bg-surface-container-low rounded-r-lg active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-label">Calendar</span>
+</a>
+<a class="flex items-center gap-3 text-secondary hover:text-primary px-4 py-3 transition-colors hover:bg-surface-container-low rounded-r-lg active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label">Community</span>
+</a>
+<a class="flex items-center gap-3 text-secondary hover:text-primary px-4 py-3 transition-colors hover:bg-surface-container-low rounded-r-lg active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label">Profile</span>
+</a>
+<a class="flex items-center gap-3 text-secondary hover:text-primary px-4 py-3 transition-colors hover:bg-surface-container-low rounded-r-lg active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label">Settings</span>
+</a>
+</div>
+<div class="px-4 mt-auto pt-6 border-t border-outline-variant/30">
+<a class="flex items-center gap-3 text-secondary hover:text-primary px-4 py-3 transition-colors hover:bg-surface-container-low rounded-r-lg active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="md:ml-[280px] min-h-screen flex flex-col">
+<!-- Top App Bar -->
+<header class="h-20 w-full sticky top-0 z-40 bg-surface/80 backdrop-blur-md flex justify-between items-center px-6 md:px-10">
+<div class="flex-1 md:hidden">
+<h1 class="font-headline font-bold text-primary text-xl">GlobeTrotter</h1>
+</div>
+<!-- Mobile Menu Trigger Placeholder -->
+<button class="md:hidden p-2 text-on-surface">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<!-- Desktop Top Nav Content (Search & Profile) -->
+<div class="hidden md:flex w-full justify-between items-center">
+<div class="relative w-96 max-w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant/50 rounded-full focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-shadow text-sm text-on-surface placeholder:text-outline" placeholder="Search destinations, trips..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-secondary hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<button class="text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-surface-container bg-surface-container-low cursor-pointer hover:border-primary transition-colors">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A portrait photo of a smiling professional person with short dark hair, wearing a light blue casual shirt, standing against a soft cool gray background with soft, flattering studio lighting. The image evokes a clean, modern, and approachable aesthetic consistent with a premium light-mode UI design. 80 words." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHyKmGRlTBFpigU5EZGBCeczO9UNM_z4WEsXhh29h3jfPx3L5BpigRjMKCcbZFJohzpCJkCr71NlOvnKnn7E3hDrOioXqC4IHM8qweDW4JOlIB9Ee9YliLVjyLoUYdSbuRbmO80-LeBRztj-ZeiMnwElVruVAoIUhke_9OF9vgbknJnGEWZonQD-uTMpCDE_kGV5JrPILmHxYxK60ap-YnmFd6SvGTGx7hDM_N9SeRu7TiXRMCMVjI"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="flex-1 p-6 md:p-10 max-w-7xl mx-auto w-full space-y-10">
+<!-- Hero Section -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-outline-variant/30">
+<div>
+<h2 class="text-3xl md:text-4xl font-headline font-bold text-on-surface mb-2">Good morning, Aryan 👋</h2>
+<p class="text-outline text-lg font-body">Where is your next adventure taking you?</p>
+</div>
+<button class="bg-primary/90 hover:bg-primary text-on-primary px-6 py-3 rounded-full font-label font-medium flex items-center gap-2 transition-all shadow-[0_4px_14px_rgba(0,99,130,0.25)] hover:shadow-[0_6px_20px_rgba(0,99,130,0.3)] active:scale-95">
+<span class="material-symbols-outlined">add</span>
+                    Plan a New Trip
+                </button>
+</section>
+<!-- Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Main Column: Upcoming Trips & Recommendations -->
+<div class="lg:col-span-8 space-y-10">
+<!-- Upcoming Trips -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xl font-headline font-semibold text-on-surface">Upcoming Trips</h3>
+<a class="text-sm font-label text-primary hover:underline" href="#">View all</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<!-- Trip Card 1 -->
+<div class="glass-card rounded-2xl overflow-hidden group hover:shadow-[0_8px_30px_rgba(30,41,59,0.08)] transition-all duration-300">
+<div class="h-40 w-full relative overflow-hidden">
+<img alt="Amalfi Coast" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A breathtaking, wide-angle photograph of the Amalfi Coast in Italy during a bright, sunny morning. The deep blue Mediterranean sea contrasts with the cool, whitewashed and pastel-colored buildings perched on the rugged cliffs. The lighting is crisp and clear, creating a premium, inviting, and airy aesthetic perfect for a luxury travel light-mode interface. 80 words." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCm_Lug-ZD4cs-axTmMh_ckAVmbyNUakrTstYeMtPTvH6Wv0hvvfx_crlmkUQDSU8QNw0MfTx_zAa58Bz80XNqnWaDaTU81-YHkt5ny111m9scHZfoodXLQNBQmLi9vmtXvvIvAwq0IhpWoF4HhzkrxvoPOD1twhA9Nbh1eRxv6m0aHl2f1ZzBcgtoNGjhdpqqEib-ZJxOrIvMV81OJ_llEBBKFlNWAALHjIUYF27yCBlPosw2yThhv"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-4 left-4 text-white">
+<h4 class="font-headline font-semibold text-lg drop-shadow-md">Amalfi Coast Escape</h4>
+<p class="text-sm font-body text-white/90 drop-shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span> Oct 15 - Oct 22
+                                        </p>
+</div>
+</div>
+<div class="p-5 bg-surface-container-lowest/80 backdrop-blur-md border-t border-white/40">
+<div class="flex justify-between items-center mb-3">
+<span class="text-xs font-label text-outline uppercase tracking-wide">Budget Status</span>
+<span class="text-sm font-medium text-secondary-dim">On Track</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 65%;"></div>
+</div>
+<div class="mt-4 flex gap-2">
+<span class="px-3 py-1 bg-secondary-fixed/30 text-secondary-dim text-xs font-label rounded-full">Relaxation</span>
+<span class="px-3 py-1 bg-secondary-fixed/30 text-secondary-dim text-xs font-label rounded-full">Coastal</span>
+</div>
+</div>
+</div>
+<!-- Trip Card 2 -->
+<div class="glass-card rounded-2xl overflow-hidden group hover:shadow-[0_8px_30px_rgba(30,41,59,0.08)] transition-all duration-300">
+<div class="h-40 w-full relative overflow-hidden">
+<img alt="Swiss Alps" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A pristine, high-resolution photograph of the Swiss Alps during winter. Snow-capped majestic peaks stand sharply against a clear, pale blue sky. The scene is illuminated by bright, cool daylight that casts soft blue shadows on the snowy slopes. The overall aesthetic is crisp, refreshing, and premium, perfectly matching a cool-toned, light-mode travel dashboard. 80 words." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuULlJmTRgQB0LxQqQaNsPLMhfS0iuZklRgGbXnKfl7RZTZnCyTl3oI5tbsqzQpM8esJLn3ZO_LPkyXN35XuW_A-3cHEyxUku9IeATWWZGL78c6XcMQ51ngVzjmFWMziIv37ePY62TErSrV83UV9IACIxjJ87QNd6-0MZzmQjbPLUTLKDlLSUojqEHJ5Hm5y4Z7z5Sb9NKICbYz2HNjlZ1yrle4eqEI5mZGQ3nxjI8PGB-w1B7DTwV"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-4 left-4 text-white">
+<h4 class="font-headline font-semibold text-lg drop-shadow-md">Swiss Alps Ski Trip</h4>
+<p class="text-sm font-body text-white/90 drop-shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span> Dec 05 - Dec 10
+                                        </p>
+</div>
+</div>
+<div class="p-5 bg-surface-container-lowest/80 backdrop-blur-md border-t border-white/40">
+<div class="flex justify-between items-center mb-3">
+<span class="text-xs font-label text-outline uppercase tracking-wide">Budget Status</span>
+<span class="text-sm font-medium text-primary-dim">Planning</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 20%;"></div>
+</div>
+<div class="mt-4 flex gap-2">
+<span class="px-3 py-1 bg-surface-variant text-on-surface-variant text-xs font-label rounded-full">Adventure</span>
+<span class="px-3 py-1 bg-surface-variant text-on-surface-variant text-xs font-label rounded-full">Winter Sports</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Recommended For You -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xl font-headline font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">auto_awesome</span> Recommended for You
+                            </h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Rec 1 -->
+<div class="glass-card rounded-2xl p-2 pb-4 group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+<div class="w-full h-32 rounded-xl overflow-hidden mb-3">
+<img alt="Kyoto, Japan" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A serene, cool-toned photograph of a traditional street in Kyoto, Japan, at dawn. The scene features minimalist wooden architecture and subtle blueish hues from the early morning light. The atmosphere is calm, clean, and ethereal, with high key lighting that fits seamlessly into a modern, light-themed premium user interface. 80 words." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0632XkKYUl1R5-r9OAcTnklKcNszyT3DnZLbp5JC-1ZfdUrz-XdXfqJPd18pMDTBq-dbT1-BZoORQ962qqotL9KcZTmsBi8yyhUjOg8wm3rsKIgXyktdOsfOzOlpc2haBV2T_7yoYEAshuK-OFskQf81emO_wNwpnxWZVYfR9rlbkrfL_rdC6uYKNcnLEc-DA47C6OW-TviEBYFIou4sDosQOfNYBOg3KUNltdy4HbhE9HTcTXimb"/>
+</div>
+<div class="px-2">
+<h5 class="font-headline font-medium text-on-surface">Kyoto</h5>
+<p class="text-xs text-outline font-body flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span> Japan
+                                    </p>
+</div>
+</div>
+<!-- Rec 2 -->
+<div class="glass-card rounded-2xl p-2 pb-4 group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+<div class="w-full h-32 rounded-xl overflow-hidden mb-3">
+<img alt="Marrakech, Morocco" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A beautifully composed photograph of a riad courtyard in Marrakech, Morocco. Instead of warm tones, the image emphasizes cool teal tilework, white marble, and a clear blue reflection pool in the center. The lighting is soft and diffused, creating a refreshing, airy, and high-end aesthetic tailored for a cool-toned light mode design. 80 words." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2eQ0OD3ZMrJB-eqAz5cqlccUKzAPEcox6CHoYJyvlhzi9A2QbfHnIWuwHwFSJh9aGhhC12X6GlSQ8_ndjn_m8CCllo6jH7VF-rqNww26HWGhaYWWrTJFPmD72PksAijgbiAbDJgf7scsy9y6Z0os8Ogl4MpCSa49ZM24Iv49I__EF7tnG3EFleQztJQKZPRfM_ELGDbHAmFA_ae-PZfJJF1ruFdpQT6rGkOCpC7kG4OnRkbosQp0r"/>
+</div>
+<div class="px-2">
+<h5 class="font-headline font-medium text-on-surface">Marrakech</h5>
+<p class="text-xs text-outline font-body flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span> Morocco
+                                    </p>
+</div>
+</div>
+<!-- Rec 3 -->
+<div class="glass-card rounded-2xl p-2 pb-4 group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+<div class="w-full h-32 rounded-xl overflow-hidden mb-3">
+<img alt="Queenstown, NZ" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A stunning panoramic shot of Queenstown, New Zealand, showcasing a deep blue glacial lake surrounded by dramatic mountains. The color palette is dominated by cool blues, slate grays, and crisp whites. The scene is bright and airy, capturing a sense of fresh adventure that perfectly complements a modern, light-themed travel dashboard. 80 words." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCENnVHqLQknr0-HHY0jmURCCQws2sa1xh-TH88vHodsot7747hNBPTlTxdiKMfPhT9GILlf-etw8p3JsRjM3hjYRFNSHsiucDH31Wq1Q5fSGTrpri18rZfs0UBUxrp-w5ZhCQEFmSdbnvv-75C_odMCxkQ_yXrRUER9fY5mR61nP2yX-kNhSWMdZRCGz9XoLiYxoRsaipLcKZDCz3FpPM2S0oP2Lh8nB9W9iO8rMXNBDSVXyzI_FhT"/>
+</div>
+<div class="px-2">
+<h5 class="font-headline font-medium text-on-surface">Queenstown</h5>
+<p class="text-xs text-outline font-body flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span> New Zealand
+                                    </p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Side Column: Budget Snapshot -->
+<div class="lg:col-span-4">
+<div class="glass-card rounded-3xl p-6 glow-effect sticky top-28">
+<h3 class="text-lg font-headline font-semibold text-on-surface mb-6">2024 Travel Spend</h3>
+<div class="text-center mb-8">
+<span class="text-sm font-label text-outline uppercase tracking-wider block mb-1">Total Spent</span>
+<div class="text-4xl font-headline font-bold text-primary-dim">$8,450</div>
+</div>
+<!-- Mini Chart / Breakdown -->
+<div class="space-y-4">
+<!-- Flights -->
+<div>
+<div class="flex justify-between text-sm mb-1 font-body">
+<span class="text-on-surface flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary inline-block"></span> Flights
+                                    </span>
+<span class="font-medium text-on-surface-variant">$3,200</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 38%;"></div>
+</div>
+</div>
+<!-- Accommodation -->
+<div>
+<div class="flex justify-between text-sm mb-1 font-body">
+<span class="text-on-surface flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary inline-block"></span> Stay
+                                    </span>
+<span class="font-medium text-on-surface-variant">$4,100</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 48%;"></div>
+</div>
+</div>
+<!-- Activities -->
+<div>
+<div class="flex justify-between text-sm mb-1 font-body">
+<span class="text-on-surface flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary inline-block"></span> Activities
+                                    </span>
+<span class="font-medium text-on-surface-variant">$1,150</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 14%;"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-outline-variant/30 text-center">
+<button class="text-primary text-sm font-label font-medium hover:text-primary-dim transition-colors">View Detailed Report →</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-surface/90 backdrop-blur-md border-t border-outline-variant/30 flex justify-around items-center z-50 pb-safe">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined filled">dashboard</span>
+<span class="text-[10px] font-label font-medium">Dashboard</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-outline hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="text-[10px] font-label font-medium">Trips</span>
+</a>
+<div class="relative -top-4">
+<button class="w-12 h-12 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+<a class="flex flex-col items-center gap-1 text-outline hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-[10px] font-label font-medium">Community</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-outline hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-label font-medium">Profile</span>
+</a>
+</nav>
+</body></html>

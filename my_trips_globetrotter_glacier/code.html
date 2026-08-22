@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GlobeTrotter - My Trips</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#d8e2ff",
+                        "secondary-fixed-dim": "#a3cfe8",
+                        "primary-fixed": "#7bd1fa",
+                        "surface-variant": "#cfddff",
+                        "on-primary-fixed-variant": "#004f69",
+                        "on-primary": "#e5f5ff",
+                        "surface-container-highest": "#cfddff",
+                        "tertiary": "#6f4b94",
+                        "secondary-dim": "#27556a",
+                        "on-tertiary": "#fbefff",
+                        "on-primary-container": "#00465d",
+                        "error-container": "#fb5151",
+                        "tertiary-fixed": "#d6adff",
+                        "primary-dim": "#005672",
+                        "surface-container": "#e0e8ff",
+                        "on-tertiary-fixed-variant": "#55327a",
+                        "secondary-container": "#b1ddf7",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#4c2970",
+                        "on-secondary-container": "#215065",
+                        "secondary-fixed": "#b1ddf7",
+                        "on-error-container": "#570008",
+                        "tertiary-fixed-dim": "#c8a0f0",
+                        "surface-bright": "#f5f6ff",
+                        "on-tertiary-fixed": "#361059",
+                        "on-secondary-fixed": "#063d51",
+                        "surface": "#f5f6ff",
+                        "error": "#b31b25",
+                        "on-background": "#252f43",
+                        "surface-dim": "#c4d4fb",
+                        "outline": "#6d778e",
+                        "primary-fixed-dim": "#6cc3eb",
+                        "on-secondary": "#e6f5ff",
+                        "error-dim": "#9f0519",
+                        "on-error": "#ffefee",
+                        "on-surface": "#252f43",
+                        "primary": "#006382",
+                        "inverse-on-surface": "#939db6",
+                        "inverse-primary": "#7bd1fa",
+                        "on-secondary-fixed-variant": "#2c596f",
+                        "background": "#f5f6ff",
+                        "primary-container": "#7bd1fa",
+                        "secondary": "#346176",
+                        "outline-variant": "#a3adc7",
+                        "surface-tint": "#006382",
+                        "on-surface-variant": "#525b72",
+                        "tertiary-container": "#d6adff",
+                        "inverse-surface": "#040e21",
+                        "surface-container-low": "#edf0ff",
+                        "on-primary-fixed": "#003041",
+                        "tertiary-dim": "#623f87"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter", "sans-serif"],
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col fixed left-0 top-0 h-full p-4 w-64 bg-surface-container-low/60 backdrop-blur-xl border-r border-primary/10 shadow-[0_0_30px_rgba(125,211,252,0.1)] z-50 transition-all duration-300">
+<div class="mb-8 px-4 flex items-center space-x-3">
+<span class="material-symbols-outlined filled text-primary text-3xl">travel_explore</span>
+<div>
+<h1 class="text-2xl font-headline font-bold text-primary tracking-tight">GlobeTrotter</h1>
+<p class="text-xs text-on-surface-variant font-medium">Premium Travel Planning</p>
+</div>
+</div>
+<div class="flex-1 space-y-2 overflow-y-auto pr-2 custom-scrollbar">
+<!-- Dashboard -->
+<a class="flex items-center space-x-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high/40 rounded-xl transition-all hover:bg-surface-container-highest/50 transition-colors scale-95 active:scale-90 duration-200 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">dashboard</span>
+<span class="font-body text-label-large font-medium">Dashboard</span>
+</a>
+<!-- My Trips (ACTIVE) -->
+<a class="flex items-center space-x-4 px-4 py-3 bg-primary-container/80 text-on-primary-container font-bold rounded-xl shadow-[0_0_15px_rgba(125,211,252,0.2)] scale-95 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined filled">explore</span>
+<span class="font-body text-label-large">My Trips</span>
+</a>
+<!-- Plan a Trip -->
+<a class="flex items-center space-x-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high/40 rounded-xl transition-all hover:bg-surface-container-highest/50 transition-colors scale-95 active:scale-90 duration-200 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">add_location_alt</span>
+<span class="font-body text-label-large font-medium">Plan a Trip</span>
+</a>
+<!-- Calendar -->
+<a class="flex items-center space-x-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high/40 rounded-xl transition-all hover:bg-surface-container-highest/50 transition-colors scale-95 active:scale-90 duration-200 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">calendar_month</span>
+<span class="font-body text-label-large font-medium">Calendar</span>
+</a>
+<!-- Community -->
+<a class="flex items-center space-x-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high/40 rounded-xl transition-all hover:bg-surface-container-highest/50 transition-colors scale-95 active:scale-90 duration-200 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">groups</span>
+<span class="font-body text-label-large font-medium">Community</span>
+</a>
+</div>
+<div class="mt-auto space-y-2 pt-4 border-t border-primary/5">
+<!-- Profile -->
+<a class="flex items-center space-x-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high/40 rounded-xl transition-all hover:bg-surface-container-highest/50 transition-colors scale-95 active:scale-90 duration-200 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">account_circle</span>
+<span class="font-body text-label-large font-medium">Profile</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center space-x-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high/40 rounded-xl transition-all hover:bg-surface-container-highest/50 transition-colors scale-95 active:scale-90 duration-200 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">settings</span>
+<span class="font-body text-label-large font-medium">Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-64 w-full min-h-screen">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-8 h-16 sticky top-0 z-40 bg-surface/40 backdrop-blur-md border-b border-primary/5">
+<div class="flex-1 flex items-center">
+<!-- Mobile Menu Button -->
+<button class="md:hidden mr-4 text-on-surface-variant opacity-80 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-2xl">menu</span>
+</button>
+<span class="hidden text-primary font-headline font-bold text-xl tracking-tight">GlobeTrotter</span>
+</div>
+<div class="flex items-center space-x-6">
+<!-- Search -->
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/60">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low/50 border border-primary/10 rounded-full text-body-medium focus:outline-none focus:ring-2 focus:ring-primary/30 focus:bg-surface transition-all w-64 placeholder:text-on-surface-variant/60 text-on-surface" placeholder="Search trips..." type="text"/>
+</div>
+<!-- Actions -->
+<button class="text-on-surface-variant opacity-80 hover:opacity-100 transition-opacity hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full ring-2 ring-surface"></span>
+</button>
+<button class="text-on-surface-variant opacity-80 hover:opacity-100 transition-opacity hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<!-- Avatar -->
+<button class="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center border border-primary/20 overflow-hidden opacity-80 hover:opacity-100 transition-opacity ring-2 ring-transparent hover:ring-primary/30 transition-all">
+<img alt="User Settings" class="w-full h-full object-cover" data-alt="A clean, professional headshot avatar of a user in a well-lit, light-themed modern office setting, echoing the cool blue and ethereal Glacier aesthetic. Subtle glassmorphism hints in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUElLLhYmDKPAAHf6A5aY1TljSRSNpAtREmGpiw34H64wMg5aYhjqMYCkdNvjaUfMm6KQ3gnMV4_U6T3WEO_VcXi7aT3vLOkfCRAGVEMZlr8kV29AFdYKm-l5fb96DMJ5S01PPR9a21E8MQDhhNCxwnBQCyrwTE2XqOVPF6dhXJjohGsKVSSMTAn8FFkaGhVX8pCM_Pq0MCBJz6KvZcMqzpIk3wX5cTkv4x89xg1-PFQBZMXYX7nTw"/>
+</button>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 p-6 md:p-10 max-w-7xl mx-auto w-full">
+<!-- Header Section -->
+<div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+<div>
+<h2 class="text-3xl font-display font-bold text-on-surface tracking-tight mb-2">My Trips</h2>
+<p class="text-on-surface-variant font-body">Manage and review all your travel itineraries in one place.</p>
+</div>
+<button class="flex items-center justify-center space-x-2 bg-primary/80 hover:bg-primary text-on-primary px-6 py-2.5 rounded-full font-medium transition-all shadow-[0_0_20px_rgba(0,99,130,0.2)] hover:shadow-[0_0_25px_rgba(0,99,130,0.4)] backdrop-blur-md">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>New Trip</span>
+</button>
+</div>
+<!-- Filters -->
+<div class="flex items-center space-x-2 mb-8 overflow-x-auto pb-2 scrollbar-hide">
+<button class="px-5 py-2 bg-primary-container text-on-primary-container rounded-full font-medium text-sm whitespace-nowrap shadow-[0_0_15px_rgba(125,211,252,0.15)] transition-all">All Trips</button>
+<button class="px-5 py-2 bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high/50 rounded-full font-medium text-sm whitespace-nowrap transition-all border border-primary/5">Upcoming</button>
+<button class="px-5 py-2 bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high/50 rounded-full font-medium text-sm whitespace-nowrap transition-all border border-primary/5">Ongoing</button>
+<button class="px-5 py-2 bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high/50 rounded-full font-medium text-sm whitespace-nowrap transition-all border border-primary/5">Completed</button>
+<div class="flex-1"></div>
+<button class="flex items-center space-x-2 px-4 py-2 text-on-surface-variant hover:text-primary bg-surface-container-low rounded-full text-sm font-medium transition-all border border-primary/5">
+<span class="material-symbols-outlined text-sm">tune</span>
+<span>Filter</span>
+</button>
+</div>
+<!-- Bento Grid / Cards Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Card 1: Kyoto (Ongoing) - Span 8 columns -->
+<div class="lg:col-span-8 group relative bg-white/60 backdrop-blur-xl rounded-2xl overflow-hidden border border-primary/10 shadow-sm hover:shadow-[0_0_30px_rgba(125,211,252,0.15)] transition-all duration-300 flex flex-col h-[400px]">
+<div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 via-inverse-surface/20 to-transparent z-10 pointer-events-none"></div>
+<div class="absolute top-4 left-4 z-20 flex space-x-2">
+<span class="px-3 py-1 bg-secondary/80 backdrop-blur-md text-on-secondary rounded-full text-xs font-semibold uppercase tracking-wider flex items-center">
+<span class="material-symbols-outlined text-[14px] mr-1">flight_takeoff</span> Ongoing
+                        </span>
+</div>
+<img class="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-700" data-alt="A breathtaking, cinematic wide shot of Kyoto during cherry blossom season, capturing a traditional wooden temple slightly obscured by vibrant pink blossoms. The sky is bright and ethereal, perfectly complementing a light, premium aesthetic with cool blue hints in the shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJC467yjyryX-oVyi-UIr2APLFbl7TqizssHbKhhasADs29jb5Jknkup1TKKoqY-Riau4S8vVJxHxDiqoErgdBhmofbeXQyJOIGcbn9sfFIZQ42ago-JWtDhqfnJF7LhwZtp6BVq1LifMcXRcsHqfsfUgup0X3El9prUL0W7zvx8KBgXWfiGPgp8jZoSizPBj_UCdPeAQsSrUXPbs5EhA58sf6EpDJD0BFu6Ox8lSMlqlBnf86Yj9U"/>
+<div class="relative z-20 mt-auto p-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+<div class="text-white">
+<h3 class="text-3xl font-display font-bold mb-1 tracking-tight text-white drop-shadow-md">Kyoto Spring Awakening</h3>
+<p class="text-white/90 font-medium flex items-center space-x-2">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>Apr 12 - Apr 24, 2024</span>
+</p>
+</div>
+<div class="flex space-x-3 backdrop-blur-md bg-white/10 p-3 rounded-xl border border-white/20">
+<div class="text-center px-3 border-r border-white/20">
+<p class="text-xs text-white/70 uppercase font-semibold tracking-wider">Destinations</p>
+<p class="text-xl font-bold text-white">4</p>
+</div>
+<div class="text-center px-3">
+<p class="text-xs text-white/70 uppercase font-semibold tracking-wider">Budget</p>
+<p class="text-xl font-bold text-white">$4.5k</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2: Swiss Alps (Upcoming) - Span 4 columns -->
+<div class="lg:col-span-4 group relative bg-white/60 backdrop-blur-xl rounded-2xl overflow-hidden border border-primary/10 shadow-sm hover:shadow-[0_0_30px_rgba(125,211,252,0.15)] transition-all duration-300 flex flex-col h-[400px]">
+<div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/90 via-inverse-surface/30 to-transparent z-10 pointer-events-none"></div>
+<div class="absolute top-4 left-4 z-20">
+<span class="px-3 py-1 bg-tertiary/80 backdrop-blur-md text-on-tertiary rounded-full text-xs font-semibold uppercase tracking-wider flex items-center">
+<span class="material-symbols-outlined text-[14px] mr-1">schedule</span> Upcoming
+                        </span>
+</div>
+<img class="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-700" data-alt="A pristine, light-drenched vertical shot of the Swiss Alps in early summer. Majestic snow-capped peaks against a crisp, vibrant blue sky. Lush green valleys below, maintaining a cool, airy, and high-end photographic style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNzMLHyc6T0FE3PEM5tbQv5WorbFKP4Ktgvrm8qkWJh7_mP3d7_BmQm8BsVhGBFQq6TPexSKQ0kbsdUJVe1wASxkxhsNL9ubAoehmRg5342yG2A3Uaoz9muLdnLWNHr4iGjMGjSC7ioW3VPYlmiKFlX78jh55wxLBGjkwq1dKcZUJaTg-XGHavlmwhokZN7jtmdzNBX1wMEF5rFxExRGpt3doouEy4H4vGHg9rK33VFAOr9Z5gczmM"/>
+<div class="relative z-20 mt-auto p-6">
+<h3 class="text-2xl font-display font-bold mb-2 tracking-tight text-white drop-shadow-md">Alpine Retreat</h3>
+<p class="text-white/80 text-sm font-medium flex items-center space-x-2 mb-4">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+<span>Jul 05 - Jul 15, 2024</span>
+</p>
+<div class="flex justify-between items-center backdrop-blur-md bg-white/10 p-3 rounded-xl border border-white/20">
+<div>
+<p class="text-[10px] text-white/70 uppercase font-semibold tracking-wider">Stops</p>
+<p class="text-lg font-bold text-white">3</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] text-white/70 uppercase font-semibold tracking-wider">Budget</p>
+<p class="text-lg font-bold text-white">$6.2k</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3: Amalfi Coast (Completed) - Span 6 columns -->
+<div class="lg:col-span-6 group bg-surface-container-lowest/60 backdrop-blur-xl rounded-2xl overflow-hidden border border-primary/10 shadow-sm hover:shadow-[0_0_30px_rgba(125,211,252,0.15)] transition-all duration-300 flex flex-col sm:flex-row h-auto sm:h-[220px]">
+<div class="w-full sm:w-2/5 h-48 sm:h-full relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale-[20%] group-hover:grayscale-0" data-alt="A bright, sunlit view of the Amalfi Coast showing colorful cliffside houses overlooking the azure Mediterranean sea. The image is vibrant but leans into a cool, airy aesthetic suitable for a premium light-themed UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF6obOzmM-nIUvC_71832MIJCP_dXYyeNu-V1F8ckmJZK1k97rJ_2wdGvaoy1KWrear2twgwfcSK1DnyvSznM2ChZMREKG1b2oNT2cqWqn6rDd0y-fpt3i57cN9HqD1PUBTQjl4h4uQ3EZgY1zw0kabc2GdfSEHYW24j4_xQbJd1UzR7qe2Z5ZWJVW5VZpPyNC9IMrnJ47Bq-oyA9tiupAELiaVwfOdbLxLDWiE0_4MrO7faSTi3Lm"/>
+<div class="absolute top-3 left-3 z-20">
+<span class="px-2 py-1 bg-surface-variant/80 backdrop-blur-md text-on-surface-variant rounded-md text-[10px] font-semibold uppercase tracking-wider flex items-center">
+<span class="material-symbols-outlined text-[12px] mr-1">check_circle</span> Completed
+                            </span>
+</div>
+</div>
+<div class="p-6 flex-1 flex flex-col justify-between">
+<div>
+<h3 class="text-xl font-display font-bold text-on-surface mb-1">Amalfi Summer Escape</h3>
+<p class="text-on-surface-variant/80 text-sm flex items-center space-x-1">
+<span class="material-symbols-outlined text-[14px]">calendar_today</span>
+<span>Aug 2023</span>
+</p>
+</div>
+<div class="flex justify-between items-end mt-4 pt-4 border-t border-primary/5">
+<div>
+<p class="text-xs text-on-surface-variant uppercase font-medium tracking-wider mb-1">Destinations</p>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full bg-primary-container border-2 border-surface flex items-center justify-center text-[10px] font-bold text-on-primary-container">Na</div>
+<div class="w-6 h-6 rounded-full bg-secondary-container border-2 border-surface flex items-center justify-center text-[10px] font-bold text-on-secondary-container">Po</div>
+<div class="w-6 h-6 rounded-full bg-tertiary-container border-2 border-surface flex items-center justify-center text-[10px] font-bold text-on-tertiary-container">So</div>
+</div>
+</div>
+<div class="text-right">
+<p class="text-xs text-on-surface-variant uppercase font-medium tracking-wider mb-1">Spent</p>
+<p class="text-lg font-bold text-on-surface">$5.1k</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 4: New York (Upcoming) - Span 6 columns -->
+<div class="lg:col-span-6 group bg-surface-container-lowest/60 backdrop-blur-xl rounded-2xl overflow-hidden border border-primary/10 shadow-sm hover:shadow-[0_0_30px_rgba(125,211,252,0.15)] transition-all duration-300 flex flex-col sm:flex-row h-auto sm:h-[220px]">
+<div class="w-full sm:w-2/5 h-48 sm:h-full relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A modern, crisp architectural shot of the New York skyline during early morning light. The glass facades of skyscrapers reflect cool blue hues, perfectly matching the Glacier design aesthetic. Ethereal and light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHJaNSmIPQuWdwgDh_an9oV32HeO_09ksQ-uxd7SvAF8P85yUgdVzHmZzP5LwcsFJOcU2HUOlIkr_md0je2lo63fzz6inINiMxoN1-HxYdzPrhquVDLUfErpor29jjJOYFVtw2D-CWR8cwVoURJCEYj-bhJ-Gd0Hn44XQdRmQF8ju2yWN_NavtDpwHK-a7V3fdtuWe021EEDZenblAYsg3rB2UEAQ4NFce_U9K4h97BIc8tT6FiXxJ"/>
+<div class="absolute top-3 left-3 z-20">
+<span class="px-2 py-1 bg-tertiary/80 backdrop-blur-md text-on-tertiary rounded-md text-[10px] font-semibold uppercase tracking-wider flex items-center">
+<span class="material-symbols-outlined text-[12px] mr-1">schedule</span> Upcoming
+                            </span>
+</div>
+</div>
+<div class="p-6 flex-1 flex flex-col justify-between">
+<div>
+<h3 class="text-xl font-display font-bold text-on-surface mb-1">NYC Weekend Blitz</h3>
+<p class="text-on-surface-variant/80 text-sm flex items-center space-x-1">
+<span class="material-symbols-outlined text-[14px]">calendar_today</span>
+<span>Sep 12 - Sep 15, 2024</span>
+</p>
+</div>
+<div class="flex justify-between items-end mt-4 pt-4 border-t border-primary/5">
+<div>
+<p class="text-xs text-on-surface-variant uppercase font-medium tracking-wider mb-1">Destinations</p>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full bg-primary-container border-2 border-surface flex items-center justify-center text-[10px] font-bold text-on-primary-container">NY</div>
+</div>
+</div>
+<div class="text-right">
+<p class="text-xs text-on-surface-variant uppercase font-medium tracking-wider mb-1">Est. Budget</p>
+<p class="text-lg font-bold text-on-surface">$1.8k</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

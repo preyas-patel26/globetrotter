@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GlobeTrotter - Public Itinerary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-on-surface": "#939db6",
+                      "surface-variant": "#cfddff",
+                      "on-surface-variant": "#525b72",
+                      "primary-fixed": "#7bd1fa",
+                      "tertiary-container": "#d6adff",
+                      "on-background": "#252f43",
+                      "error-container": "#fb5151",
+                      "primary-dim": "#005672",
+                      "surface-container": "#e0e8ff",
+                      "tertiary-fixed-dim": "#c8a0f0",
+                      "on-primary-container": "#00465d",
+                      "error": "#b31b25",
+                      "secondary-fixed": "#b1ddf7",
+                      "on-secondary-container": "#215065",
+                      "outline": "#6d778e",
+                      "on-surface": "#252f43",
+                      "on-primary-fixed": "#003041",
+                      "surface-tint": "#006382",
+                      "surface-container-highest": "#cfddff",
+                      "on-primary-fixed-variant": "#004f69",
+                      "primary": "#006382",
+                      "on-tertiary-fixed": "#361059",
+                      "on-secondary": "#e6f5ff",
+                      "on-secondary-fixed": "#063d51",
+                      "on-error-container": "#570008",
+                      "surface-container-high": "#d8e2ff",
+                      "inverse-primary": "#7bd1fa",
+                      "on-tertiary": "#fbefff",
+                      "secondary-fixed-dim": "#a3cfe8",
+                      "surface-container-low": "#edf0ff",
+                      "secondary": "#346176",
+                      "on-secondary-fixed-variant": "#2c596f",
+                      "on-tertiary-fixed-variant": "#55327a",
+                      "secondary-container": "#b1ddf7",
+                      "primary-container": "#7bd1fa",
+                      "primary-fixed-dim": "#6cc3eb",
+                      "outline-variant": "#a3adc7",
+                      "surface-dim": "#c4d4fb",
+                      "on-tertiary-container": "#4c2970",
+                      "tertiary-fixed": "#d6adff",
+                      "tertiary-dim": "#623f87",
+                      "background": "#f5f6ff",
+                      "tertiary": "#6f4b94",
+                      "error-dim": "#9f0519",
+                      "surface": "#f5f6ff",
+                      "on-primary": "#e5f5ff",
+                      "secondary-dim": "#27556a",
+                      "inverse-surface": "#040e21",
+                      "surface-bright": "#f5f6ff",
+                      "on-error": "#ffefee",
+                      "surface-container-lowest": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "headline": ["Inter"],
+                      "display": ["Inter"],
+                      "body": ["Inter"],
+                      "label": ["Inter"]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(123, 209, 250, 0.15);
+        }
+        .glass-modal {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="min-h-screen antialiased flex">
+<!-- Navigations Suppressed: Public read-only view implies transactional/linear sharing focus without main global nav for non-logged users. -->
+<main class="flex-1 w-full relative">
+<!-- Header / Hero Section -->
+<header class="relative w-full h-[50vh] min-h-[400px] flex items-end pb-12 px-6 md:px-16" data-alt="A breathtaking landscape view of Kyoto during cherry blossom season, capturing a traditional pagoda framed by vibrant pink blossoms under a clear, bright sky. The lighting is soft and cool-toned, evoking the 'Glacier' aesthetic with an emphasis on clarity and lightness, creating a serene and premium travel atmosphere." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBsdRacEzYlPnPr8omlIeIoZeh3v6mbcUeUz6m-1vQblieZ7AMjWowcKBTAWZO-Am7ZbXHUIbJjBFcOlPr26lZmYvEyxiFUI9fWbZxsCbf_PkSaPjKn_WBGZ-uldNrfLhYhONvqFx5ivlijn7R5h65ZjvPxxq_tN_H3N86zAjWBarkZeCGVgKZESk2k_rM6fLmBphFMWys2dZlbal8yqmh1LFkz1pcSp38D45Tkbc0-NCyGQilNGbcM')">
+<!-- Gradient Overlay -->
+<div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 via-inverse-surface/20 to-transparent"></div>
+<div class="relative z-10 w-full max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-end gap-6">
+<div>
+<div class="flex items-center gap-2 mb-3">
+<span class="px-3 py-1 bg-surface/20 backdrop-blur-md rounded-full text-surface-container-lowest text-xs font-semibold tracking-wide uppercase border border-white/20">Public Itinerary</span>
+<span class="text-surface-variant text-sm flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 5 Days</span>
+</div>
+<h1 class="text-4xl md:text-5xl font-display font-bold text-surface-container-lowest tracking-tight mb-2">Kyoto Cherry Blossoms</h1>
+<p class="text-surface-container-highest text-lg max-w-2xl font-light">Experience the ethereal beauty of ancient temples surrounded by fleeting sakura.</p>
+<div class="flex items-center gap-3 mt-6">
+<img class="w-10 h-10 rounded-full border-2 border-primary-fixed/50 object-cover" data-alt="A professional headshot of a travel creator, a young woman with a bright smile, wearing a stylish cool-toned jacket against a light, blurred outdoor background. The aesthetic is modern, bright, and premium, aligning with the clean Glacier style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkl3SnfZGQEDq5fmeYqccSeGlFCIiJIIBHkcvCFSl0PhjejJTiW9fD7seHCdsSWrj-wkHjO63cteYUIRnEd7xumOLcvZOIBAWR4DGBXkMh5qMkZh5FiNg3ji0R0_-jaiq_GQg_bplcDtCEX356xa16pPJJlxmGFpc8vQ2Rf9Zize3ipQxjJRIcNuMP_x_ZbeSEa8LwwDYEPKVJpIeJPGCg12PHk2hOTH2R-SNx9-lwROPwd5EYyR_O"/>
+<div>
+<p class="text-surface-container-lowest text-sm font-medium">Curated by <span class="font-bold">Elena R.</span></p>
+<p class="text-surface-variant text-xs">GlobeTrotter Pro</p>
+</div>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-3 bg-surface-container-lowest/10 hover:bg-surface-container-lowest/20 backdrop-blur-md text-surface-container-lowest rounded-xl font-medium transition-all flex items-center gap-2 border border-white/20 shadow-[0_0_20px_rgba(125,211,252,0.1)]">
+<span class="material-symbols-outlined">share</span>
+                        Share
+                    </button>
+<button class="px-6 py-3 bg-primary/80 hover:bg-primary backdrop-blur-md text-on-primary rounded-xl font-medium transition-all flex items-center gap-2 border border-primary-fixed shadow-[0_0_30px_rgba(125,211,252,0.2)]">
+<span class="material-symbols-outlined">file_copy</span>
+                        Copy Trip
+                    </button>
+</div>
+</div>
+</header>
+<!-- Itinerary Content -->
+<div class="w-full max-w-6xl mx-auto px-6 md:px-16 py-12 relative z-20 -mt-8">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Main Timeline -->
+<div class="lg:col-span-8 space-y-12">
+<!-- Day 1 -->
+<div class="relative pl-8 md:pl-12">
+<!-- Timeline Line -->
+<div class="absolute left-0 top-2 bottom-0 w-px bg-primary/20"></div>
+<!-- Timeline Node -->
+<div class="absolute left-[-5px] top-2 w-3 h-3 rounded-full bg-primary ring-4 ring-primary-container shadow-[0_0_15px_rgba(125,211,252,0.4)]"></div>
+<div class="mb-6">
+<h2 class="text-2xl font-bold text-on-background mb-1">Day 1: Arrival &amp; Eastern Kyoto</h2>
+<p class="text-on-surface-variant text-sm">March 28 • Focus: Settling in and iconic views</p>
+</div>
+<div class="space-y-4">
+<!-- Activity Card -->
+<div class="glass-panel p-5 rounded-xl hover:shadow-[0_0_25px_rgba(125,211,252,0.15)] transition-shadow duration-300">
+<div class="flex items-start gap-4">
+<div class="p-3 bg-primary-container/30 text-primary rounded-lg">
+<span class="material-symbols-outlined">flight_land</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-semibold text-lg text-on-surface">Arrive at Kansai International Airport (KIX)</h3>
+<span class="text-sm font-medium text-secondary">10:00 AM</span>
+</div>
+<p class="text-on-surface-variant text-sm mb-3">Take the Haruka Express directly to Kyoto Station. Approximately 75 minutes.</p>
+</div>
+</div>
+</div>
+<!-- Activity Card with Image -->
+<div class="glass-panel p-5 rounded-xl hover:shadow-[0_0_25px_rgba(125,211,252,0.15)] transition-shadow duration-300">
+<div class="flex flex-col sm:flex-row gap-5">
+<img class="w-full sm:w-48 h-32 object-cover rounded-lg shadow-sm" data-alt="A close-up view of the intricate wooden architecture of Kiyomizu-dera temple in Kyoto, surrounded by pale pink cherry blossoms against a clear, light blue sky. The scene is bright and airy, perfectly capturing the delicate frozen-light aesthetic of the Glacier theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbvn3-moM-Nul3pGNVVEsWlMJIXx_HwVjW1DSj2tLku66ZkZ9KoVXtq2Z394soK4MO42iSWMAlwIfP6oTB4xzI7pkcHHVhiQKHLPCj_Kx3VImWnN2ruBRUBQSIif05zRGh6IC09BtfVjH_Ybfkf37HaCiEHM4yit7DVPxrbi3xwqGygpAlK2kBWsFunCCMRG_9bQgpBBCoLmjH8URiUh-cd7STejPxct_f82WR0rkOwqzd7s4B_zc6"/>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-semibold text-lg text-on-surface">Kiyomizu-dera Temple</h3>
+<span class="text-sm font-medium text-secondary">3:00 PM</span>
+</div>
+<p class="text-on-surface-variant text-sm mb-3">Explore the iconic wooden stage offering panoramic views of the city amidst sakura trees. A must-see in Higashiyama.</p>
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-surface-container rounded text-xs text-on-surface-variant font-medium">Sightseeing</span>
+<span class="px-2 py-1 bg-tertiary-container/40 rounded text-xs text-tertiary-dim font-medium flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">confirmation_number</span> Tickets Req.</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Day 2 -->
+<div class="relative pl-8 md:pl-12">
+<div class="absolute left-0 top-2 bottom-0 w-px bg-primary/20"></div>
+<div class="absolute left-[-5px] top-2 w-3 h-3 rounded-full bg-surface ring-4 ring-primary/20"></div>
+<div class="mb-6">
+<h2 class="text-2xl font-bold text-on-background mb-1">Day 2: Arashiyama &amp; Bamboo</h2>
+<p class="text-on-surface-variant text-sm">March 29 • Focus: Nature and tranquility</p>
+</div>
+<div class="glass-panel p-5 rounded-xl opacity-75">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-xl">more_horiz</span>
+<span>More activities planned for this day.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar / Overview Info -->
+<div class="lg:col-span-4 space-y-6">
+<!-- Map Preview Card -->
+<div class="glass-panel rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(125,211,252,0.05)]">
+<div class="h-48 bg-surface-variant relative">
+<!-- Using standard image placeholder for map as requested -->
+<img class="w-full h-full object-cover opacity-80" data-alt="A stylized, light-mode digital map of Kyoto, Japan, featuring pale blue waterways, soft white roads, and subtle pastel green parks. A prominent glowing blue pin marks a central location. The design is clean, abstract, and fits a high-end travel app aesthetic." data-location="Kyoto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwk5dYLk1bEf9dsoK2ThiY9MOQVdT5ERRVwj1pLLZlLVak0T_bo5GybCditCyR7tjY34PW2ifWN4_1Aw6iE3zTjjyZcy51Q1DYlW--48Re6iaLwBbG6FbyupYDkHTeIThJRHvB72MLhK7C9am9JWnQbPNbaDaye52cVlUISt5sHyA9W-OjiRtD2CX8jCl0Q50ok46B5lb0uIivb9MUQQx6dILck5BTqEDwAJHwiqsilrRmx9QUsVrD"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+<div>
+<p class="text-xs font-semibold text-primary uppercase tracking-wider mb-1">Destination</p>
+<h3 class="text-lg font-bold text-on-surface">Kyoto, Japan</h3>
+</div>
+<button class="w-10 h-10 bg-primary/10 hover:bg-primary/20 rounded-full flex items-center justify-center text-primary transition-colors">
+<span class="material-symbols-outlined">open_in_new</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Trip Details Bento Box -->
+<div class="grid grid-cols-2 gap-4">
+<div class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl">wb_sunny</span>
+<span class="text-xs text-on-surface-variant uppercase tracking-wider mb-1">Best Season</span>
+<span class="font-semibold text-on-surface">Spring</span>
+</div>
+<div class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl">payments</span>
+<span class="text-xs text-on-surface-variant uppercase tracking-wider mb-1">Budget</span>
+<span class="font-semibold text-on-surface">Moderate</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>
