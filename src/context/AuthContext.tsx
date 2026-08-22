@@ -17,8 +17,8 @@ const defaultAdminUser: UserAccount = {
   country: 'United States',
   tier: 'Platform Admin',
   avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
-  tripsCompleted: 0,
-  countriesVisited: 0,
+  tripsCompleted: 22,
+  countriesVisited: 12,
   preferredLanguage: 'English (US)',
   displayCurrency: 'USD ($)',
   savedDestinations: [],
@@ -36,11 +36,14 @@ const defaultDemoUser: UserAccount = {
   country: 'United States',
   tier: 'Explorer Tier',
   avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
-  tripsCompleted: 0,
-  countriesVisited: 0,
+  tripsCompleted: 14,
+  countriesVisited: 8,
   preferredLanguage: 'English (US)',
   displayCurrency: 'USD ($)',
-  savedDestinations: [],
+  savedDestinations: [
+    { city: 'Kyoto', country: 'Japan', image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80' },
+    { city: 'Amalfi Coast', country: 'Italy', image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=600&q=80' },
+  ],
   role: 'user',
 };
 
@@ -56,13 +59,11 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Registered Accounts Store
   const [registeredAccounts, setRegisteredAccounts] = useState<UserAccount[]>(() => {
     const savedAccounts = localStorage.getItem('globetrotter_registered_accounts');
     return savedAccounts ? JSON.parse(savedAccounts) : [defaultAdminUser, defaultDemoUser];
   });
 
-  // Current Logged In User
   const [user, setUser] = useState<UserAccount | null>(() => {
     const saved = sessionStorage.getItem('globetrotter_user');
     return saved ? JSON.parse(saved) : null;
@@ -80,14 +81,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [user]);
 
-  // Strict Login Function: Verifies both Email AND Password match registered accounts!
   const login = (email?: string, password?: string): boolean => {
     const trimmedEmail = (email || '').trim().toLowerCase();
     const inputPassword = (password || '').trim();
 
     if (!trimmedEmail || !inputPassword) return false;
 
-    // Search in registered accounts database
     const found = registeredAccounts.find(
       (acc) => acc.email.trim().toLowerCase() === trimmedEmail
     );
@@ -97,17 +96,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return true;
     }
 
-    return false; // Authentication failed!
+    return false;
   };
 
-  // Secure Registration Function: Saves email & password into registered accounts database
   const register = (userData: Partial<UserProfile> & { password?: string }): boolean => {
     const trimmedEmail = (userData.email || '').trim().toLowerCase();
     const password = (userData.password || '').trim();
 
     if (!trimmedEmail || !password) return false;
 
-    // Check if email is already registered
     const existing = registeredAccounts.find(
       (acc) => acc.email.trim().toLowerCase() === trimmedEmail
     );

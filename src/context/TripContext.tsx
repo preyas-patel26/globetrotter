@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Trip, DestinationStop, Activity, ExpenseItem, PackingItem } from '../types';
-import { mockDestinationsList, mockCommunityTrips } from '../data/mockData';
+import { mockTripsList, mockDestinationsList, mockCommunityTrips } from '../data/mockData';
 
 interface TripContextType {
   trips: Trip[];
@@ -20,7 +20,6 @@ interface TripContextType {
   copyCommunityTrip: (communityTripId: string) => Trip | undefined;
   togglePackingItem: (tripId: string, itemId: string) => void;
   addPackingItem: (tripId: string, title: string, category: PackingItem['category']) => void;
-  // Admin Features
   addAdminDestination: (newDest: Omit<DestinationStop, 'id' | 'days'>) => void;
   updateDestinationEstCost: (destId: string, newCostPerDay: number) => void;
 }
@@ -38,9 +37,14 @@ const defaultPackingList: PackingItem[] = [
 ];
 
 export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // Pre-load sample dummy trips for immediate testing!
   const [trips, setTrips] = useState<Trip[]>(() => {
     const saved = localStorage.getItem('globetrotter_user_trips');
-    return saved ? JSON.parse(saved) : [];
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      return parsed.length > 0 ? parsed : mockTripsList;
+    }
+    return mockTripsList;
   });
 
   const [destinations, setDestinations] = useState<DestinationStop[]>(() => {
@@ -48,7 +52,7 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return saved ? JSON.parse(saved) : mockDestinationsList;
   });
 
-  const [activeTripId, setActiveTripId] = useState<string | null>(null);
+  const [activeTripId, setActiveTripId] = useState<string | null>('trip_rajasthan');
 
   useEffect(() => {
     localStorage.setItem('globetrotter_user_trips', JSON.stringify(trips));
@@ -297,7 +301,6 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
     );
   };
 
-  // ADMIN FEATURE: Add new destination/place to the global platform dataset
   const addAdminDestination = (newDest: Omit<DestinationStop, 'id' | 'days'>) => {
     const createdDest: DestinationStop = {
       ...newDest,
@@ -307,7 +310,6 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setDestinations((prev) => [createdDest, ...prev]);
   };
 
-  // ADMIN FEATURE: Update approximate cost per day for a destination
   const updateDestinationEstCost = (destId: string, newCostPerDay: number) => {
     setDestinations((prev) =>
       prev.map((d) => (d.id === destId ? { ...d, estCostPerDay: newCostPerDay } : d))
