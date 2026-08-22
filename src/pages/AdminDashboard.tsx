@@ -7,28 +7,48 @@ import {
   BarChart3,
   ShieldCheck,
   Search,
-  MoreVertical,
   CheckCircle,
-  XCircle,
-  UserPlus,
+  Plus,
+  Edit2,
+  MapPin,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTrips } from '../context/TripContext';
+import { Modal } from '../components/common/Modal';
 
 export const AdminDashboard: React.FC = () => {
   const { user } = useAuth();
-  const { trips, destinations } = useTrips();
+  const { destinations, addAdminDestination, updateDestinationEstCost } = useTrips();
   const [userSearch, setUserSearch] = useState('');
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
+  // Admin Add Destination Modal State
+  const [isAddDestModalOpen, setIsAddDestModalOpen] = useState(false);
+  const [newCity, setNewCity] = useState('');
+  const [newCountry, setNewCountry] = useState('');
+  const [newRegion, setNewRegion] = useState('Asia');
+  const [newCostPerDay, setNewCostPerDay] = useState<number>(180);
+  const [newCostLevel, setNewCostLevel] = useState<'Low' | 'Med' | 'High'>('Med');
+  const [newImage, setNewImage] = useState('');
+  const [newDescription, setNewDescription] = useState('');
+
+  // Editing Approx Cost State
+  const [editingDestId, setEditingDestId] = useState<string | null>(null);
+  const [tempCostInput, setTempCostInput] = useState<number>(0);
+
   // Mock list of platform users for Admin management
   const [usersList, setUsersList] = useState([
-    { id: 'usr_001', name: 'Aryan Patel', email: 'aryan.patel@example.com', role: 'user', trips: 14, status: 'Active' },
+    { id: 'usr_001', name: 'Aryan Patel', email: 'aryan.patel@example.com', role: 'user', trips: 4, status: 'Active' },
     { id: 'usr_002', name: 'Elena R.', email: 'elena.r@globetrotter.com', role: 'user', trips: 8, status: 'Active' },
     { id: 'usr_003', name: 'Sarah Jenkins', email: 'sarah.j@example.com', role: 'user', trips: 5, status: 'Active' },
     { id: 'usr_004', name: 'Markus O.', email: 'markus.o@example.com', role: 'user', trips: 11, status: 'Active' },
-    { id: 'usr_005', name: 'Admin Manager', email: 'admin@globetrotter.com', role: 'admin', trips: 22, status: 'Active' },
+    { id: 'usr_005', name: 'Admin Manager', email: 'admin@globetrotter.com', role: 'admin', trips: 0, status: 'Active' },
   ]);
+
+  const showToast = (msg: string) => {
+    setToastMsg(msg);
+    setTimeout(() => setToastMsg(null), 3000);
+  };
 
   const toggleUserStatus = (id: string) => {
     setUsersList((prev) =>
@@ -36,8 +56,41 @@ export const AdminDashboard: React.FC = () => {
         u.id === id ? { ...u, status: u.status === 'Active' ? 'Suspended' : 'Active' } : u
       )
     );
-    setToastMsg('User status updated!');
-    setTimeout(() => setToastMsg(null), 3000);
+    showToast('User status updated!');
+  };
+
+  const handleAddDestinationSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newCity || !newCountry) return;
+
+    addAdminDestination({
+      city: newCity,
+      country: newCountry,
+      region: newRegion,
+      estCostPerDay: newCostPerDay,
+      costLevel: newCostLevel,
+      popularityRating: 4.8,
+      nights: 3,
+      startDate: '2024-11-01',
+      endDate: '2024-11-04',
+      image:
+        newImage ||
+        'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80',
+      description: newDescription || 'A beautiful newly added destination for travelers.',
+    });
+
+    setIsAddDestModalOpen(false);
+    setNewCity('');
+    setNewCountry('');
+    setNewImage('');
+    setNewDescription('');
+    showToast(`Successfully added ${newCity}, ${newCountry} to platform places!`);
+  };
+
+  const handleSaveEstCost = (destId: string) => {
+    updateDestinationEstCost(destId, tempCostInput);
+    setEditingDestId(null);
+    showToast('Approximate daily expense updated!');
   };
 
   const filteredUsers = usersList.filter(
@@ -65,12 +118,20 @@ export const AdminDashboard: React.FC = () => {
             </span>
           </div>
           <h1 className="font-headline font-extrabold text-2xl md:text-3xl text-on-surface mt-1">
-            Admin & Analytics Hub
+            Admin Management & Analytics
           </h1>
           <p className="text-outline text-sm mt-0.5">
-            Platform adoption, trip creation trends, destination popularity, and user management.
+            Add new places, manage approx travel expenses, monitor adoption, and control user access.
           </p>
         </div>
+
+        <button
+          onClick={() => setIsAddDestModalOpen(true)}
+          className="flex items-center justify-center gap-2 py-3 px-5 rounded-2xl bg-primary text-on-primary font-bold text-xs shadow-md hover:bg-primary-dim transition-all"
+        >
+          <Plus className="w-4 h-4" />
+          <span>Add New Place / Destination</span>
+        </button>
       </div>
 
       {/* KPI Cards Row */}
@@ -88,115 +149,119 @@ export const AdminDashboard: React.FC = () => {
 
         <div className="glass-card-elevated rounded-3xl p-6 shadow-sm border border-outline-variant/30 space-y-2">
           <div className="flex items-center justify-between text-xs text-outline font-semibold">
-            <span>Trips Created</span>
-            <Compass className="w-4 h-4 text-primary" />
+            <span>Platform Destinations</span>
+            <MapPin className="w-4 h-4 text-primary" />
           </div>
-          <h3 className="font-headline font-extrabold text-3xl text-on-surface">3,850</h3>
-          <span className="text-[11px] font-bold text-emerald-600 flex items-center gap-1">
-            <TrendingUp className="w-3 h-3" /> +18.2% this month
+          <h3 className="font-headline font-extrabold text-3xl text-on-surface">
+            {destinations.length}
+          </h3>
+          <span className="text-[11px] font-bold text-primary font-semibold">
+            Active Places
           </span>
         </div>
 
         <div className="glass-card-elevated rounded-3xl p-6 shadow-sm border border-outline-variant/30 space-y-2">
           <div className="flex items-center justify-between text-xs text-outline font-semibold">
-            <span>Total Budget Tracked</span>
+            <span>Total Approx Budget</span>
             <DollarSign className="w-4 h-4 text-emerald-600" />
           </div>
           <h3 className="font-headline font-extrabold text-3xl text-on-surface">$4.2M</h3>
           <span className="text-[11px] font-bold text-emerald-600 flex items-center gap-1">
-            <TrendingUp className="w-3 h-3" /> +8.5% growth
+            <TrendingUp className="w-3 h-3" /> Managed by Admin
           </span>
         </div>
 
         <div className="glass-card-elevated rounded-3xl p-6 shadow-sm border border-outline-variant/30 space-y-2">
           <div className="flex items-center justify-between text-xs text-outline font-semibold">
-            <span>Public Shared Itineraries</span>
+            <span>Public Itineraries</span>
             <BarChart3 className="w-4 h-4 text-tertiary" />
           </div>
           <h3 className="font-headline font-extrabold text-3xl text-on-surface">640</h3>
           <span className="text-[11px] font-bold text-primary font-semibold">
-            42% Copy Rate
+            Community Copies
           </span>
         </div>
       </div>
 
-      {/* Analytics Charts & Top Destinations Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left: Monthly Creation Bar Chart (7 cols) */}
-        <div className="lg:col-span-7 glass-card-elevated rounded-3xl p-6 shadow-md border border-outline-variant/30 space-y-6">
-          <div className="flex items-center justify-between">
+      {/* ADMIN DESTINATION APPROX COST MANAGEMENT TABLE */}
+      <div className="glass-card-elevated rounded-3xl p-6 shadow-md border border-outline-variant/30 space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
             <h3 className="font-headline font-bold text-lg text-on-surface">
-              Trip Creation Growth Trends
+              Manage Destination Places & Approx Expenses
             </h3>
-            <span className="text-xs text-outline font-semibold">2024 YTD</span>
-          </div>
-
-          <div className="h-56 flex items-end justify-between gap-3 pt-6">
-            {[
-              { month: 'May', count: 320 },
-              { month: 'Jun', count: 450 },
-              { month: 'Jul', count: 580 },
-              { month: 'Aug', count: 720 },
-              { month: 'Sep', count: 640 },
-              { month: 'Oct', count: 890 },
-            ].map((item) => (
-              <div key={item.month} className="flex-1 flex flex-col items-center gap-2 group">
-                <span className="text-[10px] font-bold text-outline opacity-0 group-hover:opacity-100 transition-opacity">
-                  {item.count}
-                </span>
-                <div className="w-full bg-surface-container-high h-44 rounded-xl flex items-end p-0.5">
-                  <div
-                    className="w-full bg-primary rounded-lg group-hover:bg-primary-dim transition-all duration-500"
-                    style={{ height: `${(item.count / 900) * 100}%` }}
-                  />
-                </div>
-                <span className="text-xs font-semibold text-outline">{item.month}</span>
-              </div>
-            ))}
+            <p className="text-xs text-outline">
+              Admin can manually set and update the approximate daily expenses for each place.
+            </p>
           </div>
         </div>
 
-        {/* Right: Top Destinations Table (5 cols) */}
-        <div className="lg:col-span-5 glass-card-elevated rounded-3xl p-6 shadow-md border border-outline-variant/30 space-y-4">
-          <h3 className="font-headline font-bold text-lg text-on-surface pb-2 border-b border-outline-variant/40">
-            Top Booked Destinations
-          </h3>
-
-          <div className="space-y-3">
-            {destinations.slice(0, 4).map((dest, idx) => (
-              <div
-                key={dest.id}
-                className="flex items-center justify-between p-3 rounded-2xl bg-surface-container-lowest border border-outline-variant/40"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="font-extrabold text-xs text-outline">#{idx + 1}</span>
-                  <img
-                    src={dest.image}
-                    alt={dest.city}
-                    className="w-10 h-10 rounded-xl object-cover"
-                  />
-                  <div>
-                    <h4 className="font-bold text-sm text-on-surface">{dest.city}</h4>
-                    <p className="text-[11px] text-outline">{dest.country}</p>
-                  </div>
-                </div>
-
-                <div className="text-right text-xs">
-                  <span className="font-bold text-primary block">⭐ {dest.popularityRating}</span>
-                  <span className="text-[10px] text-outline">Est. ${dest.estCostPerDay}/day</span>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+          {destinations.map((dest) => (
+            <div
+              key={dest.id}
+              className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/40 space-y-3 flex flex-col justify-between"
+            >
+              <div className="flex items-center gap-3">
+                <img
+                  src={dest.image}
+                  alt={dest.city}
+                  className="w-12 h-12 rounded-xl object-cover"
+                />
+                <div>
+                  <h4 className="font-bold text-sm text-on-surface">{dest.city}</h4>
+                  <p className="text-xs text-outline">{dest.country}</p>
                 </div>
               </div>
-            ))}
-          </div>
+
+              <div className="pt-2 border-t border-outline-variant/30 flex items-center justify-between text-xs">
+                <div>
+                  <span className="text-[10px] text-outline font-bold block uppercase">APPROX COST</span>
+                  {editingDestId === dest.id ? (
+                    <div className="flex items-center gap-1 mt-1">
+                      <span className="text-xs font-bold">$</span>
+                      <input
+                        type="number"
+                        value={tempCostInput}
+                        onChange={(e) => setTempCostInput(Number(e.target.value))}
+                        className="w-16 px-1.5 py-0.5 border rounded text-xs focus:outline-none"
+                      />
+                      <button
+                        onClick={() => handleSaveEstCost(dest.id)}
+                        className="px-2 py-0.5 bg-primary text-white text-[10px] rounded font-bold"
+                      >
+                        Save
+                      </button>
+                    </div>
+                  ) : (
+                    <span className="font-bold text-primary">${dest.estCostPerDay || 200}/day</span>
+                  )}
+                </div>
+
+                {editingDestId !== dest.id && (
+                  <button
+                    onClick={() => {
+                      setEditingDestId(dest.id);
+                      setTempCostInput(dest.estCostPerDay || 200);
+                    }}
+                    className="p-1.5 rounded-lg text-outline hover:bg-surface-container hover:text-primary"
+                    title="Edit Approx Daily Expense"
+                  >
+                    <Edit2 className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* User Management Section */}
+      {/* User Access Management Table */}
       <div className="glass-card-elevated rounded-3xl p-6 shadow-md border border-outline-variant/30 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h3 className="font-headline font-bold text-lg text-on-surface">User Management</h3>
-            <p className="text-xs text-outline">Control platform accounts, roles, and status.</p>
+            <h3 className="font-headline font-bold text-lg text-on-surface">Platform Users</h3>
+            <p className="text-xs text-outline">Manage accounts and authorization roles.</p>
           </div>
 
           <div className="w-full sm:w-64 relative">
@@ -211,7 +276,6 @@ export const AdminDashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* User Table */}
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
@@ -219,7 +283,6 @@ export const AdminDashboard: React.FC = () => {
                 <th className="pb-3 px-3">User Name</th>
                 <th className="pb-3 px-3">Email</th>
                 <th className="pb-3 px-3">Role</th>
-                <th className="pb-3 px-3">Trips</th>
                 <th className="pb-3 px-3">Status</th>
                 <th className="pb-3 px-3 text-right">Action</th>
               </tr>
@@ -240,7 +303,6 @@ export const AdminDashboard: React.FC = () => {
                       {u.role}
                     </span>
                   </td>
-                  <td className="py-3 px-3 font-bold">{u.trips}</td>
                   <td className="py-3 px-3">
                     <span
                       className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
@@ -266,6 +328,120 @@ export const AdminDashboard: React.FC = () => {
           </table>
         </div>
       </div>
+
+      {/* ADMIN ADD DESTINATION PLACE MODAL */}
+      <Modal
+        isOpen={isAddDestModalOpen}
+        onClose={() => setIsAddDestModalOpen(false)}
+        title="Add New Place / Destination (Admin)"
+      >
+        <form onSubmit={handleAddDestinationSubmit} className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-semibold uppercase mb-1">City Name</label>
+              <input
+                type="text"
+                value={newCity}
+                onChange={(e) => setNewCity(e.target.value)}
+                placeholder="e.g. Venice"
+                className="w-full px-3 py-2 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold uppercase mb-1">Country</label>
+              <input
+                type="text"
+                value={newCountry}
+                onChange={(e) => setNewCountry(e.target.value)}
+                placeholder="e.g. Italy"
+                className="w-full px-3 py-2 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-4">
+            <div>
+              <label className="block text-xs font-semibold uppercase mb-1">Region</label>
+              <select
+                value={newRegion}
+                onChange={(e) => setNewRegion(e.target.value)}
+                className="w-full px-3 py-2 border rounded-xl text-sm focus:outline-none"
+              >
+                <option value="Asia">Asia</option>
+                <option value="Europe">Europe</option>
+                <option value="Africa">Africa</option>
+                <option value="Oceania">Oceania</option>
+                <option value="Americas">Americas</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold uppercase mb-1">Approx $/Day</label>
+              <input
+                type="number"
+                value={newCostPerDay}
+                onChange={(e) => setNewCostPerDay(Number(e.target.value))}
+                className="w-full px-3 py-2 border rounded-xl text-sm focus:outline-none"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold uppercase mb-1">Cost Tier</label>
+              <select
+                value={newCostLevel}
+                onChange={(e) => setNewCostLevel(e.target.value as any)}
+                className="w-full px-3 py-2 border rounded-xl text-sm focus:outline-none"
+              >
+                <option value="Low">Low</option>
+                <option value="Med">Medium</option>
+                <option value="High">High</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold uppercase mb-1">Cover Image URL</label>
+            <input
+              type="url"
+              value={newImage}
+              onChange={(e) => setNewImage(e.target.value)}
+              placeholder="https://images.unsplash.com/..."
+              className="w-full px-3 py-2 border rounded-xl text-sm focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold uppercase mb-1">Description</label>
+            <textarea
+              value={newDescription}
+              onChange={(e) => setNewDescription(e.target.value)}
+              rows={2}
+              placeholder="Describe the place..."
+              className="w-full px-3 py-2 border rounded-xl text-sm focus:outline-none resize-none"
+            />
+          </div>
+
+          <div className="flex justify-end gap-3 pt-4 border-t">
+            <button
+              type="button"
+              onClick={() => setIsAddDestModalOpen(false)}
+              className="px-4 py-2 border rounded-xl text-xs font-semibold"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-5 py-2 bg-primary text-white rounded-xl text-xs font-bold shadow-md hover:bg-primary-dim"
+            >
+              Add Place
+            </button>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 };
