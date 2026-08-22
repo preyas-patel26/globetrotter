@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Register - GlobeTrotter</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#7bd1fa",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#4c2970",
+                        "on-primary-fixed": "#003041",
+                        "tertiary-container": "#d6adff",
+                        "on-surface": "#252f43",
+                        "on-background": "#252f43",
+                        "primary-dim": "#005672",
+                        "inverse-primary": "#7bd1fa",
+                        "tertiary-fixed-dim": "#c8a0f0",
+                        "on-secondary-container": "#215065",
+                        "inverse-on-surface": "#939db6",
+                        "surface-container-high": "#d8e2ff",
+                        "on-tertiary-fixed": "#361059",
+                        "on-surface-variant": "#525b72",
+                        "secondary": "#346176",
+                        "secondary-container": "#b1ddf7",
+                        "primary": "#006382",
+                        "tertiary": "#6f4b94",
+                        "on-tertiary": "#fbefff",
+                        "surface-tint": "#006382",
+                        "on-secondary-fixed": "#063d51",
+                        "error-container": "#fb5151",
+                        "on-error-container": "#570008",
+                        "secondary-fixed": "#b1ddf7",
+                        "on-secondary": "#e6f5ff",
+                        "surface-variant": "#cfddff",
+                        "error-dim": "#9f0519",
+                        "on-error": "#ffefee",
+                        "error": "#b31b25",
+                        "outline": "#6d778e",
+                        "on-tertiary-fixed-variant": "#55327a",
+                        "on-secondary-fixed-variant": "#2c596f",
+                        "on-primary-container": "#00465d",
+                        "surface-container": "#e0e8ff",
+                        "surface-bright": "#f5f6ff",
+                        "surface-dim": "#c4d4fb",
+                        "inverse-surface": "#040e21",
+                        "background": "#f5f6ff",
+                        "on-primary-fixed-variant": "#004f69",
+                        "tertiary-dim": "#623f87",
+                        "on-primary": "#e5f5ff",
+                        "surface-container-highest": "#cfddff",
+                        "surface-container-low": "#edf0ff",
+                        "outline-variant": "#a3adc7",
+                        "secondary-dim": "#27556a",
+                        "surface": "#f5f6ff",
+                        "tertiary-fixed": "#d6adff",
+                        "primary-fixed-dim": "#6cc3eb",
+                        "secondary-fixed-dim": "#a3cfe8",
+                        "primary-container": "#7bd1fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter", "sans-serif"],
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background-color: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(123, 209, 250, 0.15);
+        }
+        .input-field {
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(163, 173, 199, 0.3);
+            transition: all 0.2s ease;
+        }
+        .input-field:focus {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-color: rgba(123, 209, 250, 0.8);
+            box-shadow: 0 0 15px rgba(125, 211, 252, 0.2);
+            outline: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+<!-- Atmospheric background elements -->
+<div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+<div class="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-primary-fixed/20 blur-[120px]"></div>
+<div class="absolute bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-secondary-fixed/20 blur-[120px]"></div>
+</div>
+<main class="w-full max-w-4xl mx-auto">
+<!-- Logo -->
+<div class="text-center mb-8">
+<h1 class="text-2xl font-display font-bold tracking-tight text-primary">GlobeTrotter</h1>
+</div>
+<div class="glass-panel rounded-xl shadow-[0_0_40px_rgba(125,211,252,0.05)] overflow-hidden flex flex-col md:flex-row w-full">
+<!-- Left side visual (Desktop only) -->
+<div class="hidden md:block md:w-5/12 bg-surface-container relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-primary-fixed/30 to-secondary-fixed/10 mix-blend-overlay z-10"></div>
+<img alt="Journey background" class="object-cover w-full h-full" data-alt="A breathtaking aerial view of a pristine frozen glacier lake surrounded by snow-capped mountains, captured in bright, clear daylight. The scene emphasizes a crisp, light-mode aesthetic with ethereal blues, stark whites, and a sense of vast, pure wilderness. The lighting is soft yet brilliant, reflecting off the ice." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCdo9Hz7Fzy2k7S57KVIXw4xG-HlI4wqcusFC_HPRqq5T6HzjR84E-Ss4bzDVyySIbw7z4gFUEVyVq22-aXZ-aO4QImIHJwhMnm3r1AjJbeZmgPNdow_so5zYBBRzD79pfLIdYrhGZNVjrqu3ZdIGs_0Vcg-CtrsR9dIf0dSRF_AjaFp79nXlVYV19zUno26I_SXhraqnySm2A4Ivgb_dbHVcMd9c8VZPnpO1mgFYlcKGGjtJJJC74"/>
+<div class="absolute bottom-8 left-8 z-20 text-surface-container-lowest">
+<h2 class="text-3xl font-display font-bold mb-2">Begin Your<br/>Adventure.</h2>
+<p class="text-sm font-label text-surface-container-lowest/80">Join the world's most premium travel network.</p>
+</div>
+</div>
+<!-- Form Area -->
+<div class="w-full md:w-7/12 p-8 md:p-12 relative z-10 bg-surface-container-lowest/80 backdrop-blur-xl">
+<div class="mb-8 text-center md:text-left">
+<h2 class="text-3xl font-headline font-bold text-on-surface mb-2">Create Account</h2>
+<p class="text-on-surface-variant font-label text-sm">Start your journey today.</p>
+</div>
+<form action="#" class="space-y-6" method="POST">
+<!-- Profile Photo Upload -->
+<div class="flex flex-col items-center justify-center mb-6">
+<div class="w-24 h-24 rounded-full bg-surface-container-low border border-dashed border-outline-variant flex items-center justify-center cursor-pointer hover:bg-surface-container transition-colors group relative overflow-hidden">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-3xl">add_a_photo</span>
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<span class="text-xs text-on-surface-variant mt-2 font-label">Upload Profile Photo</span>
+</div>
+<!-- Row 1: Name -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex flex-col space-y-1.5">
+<label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider" for="firstName">First Name</label>
+<input class="input-field w-full px-4 py-3 rounded-lg text-sm text-on-surface placeholder:text-outline-variant/60" id="firstName" name="firstName" placeholder="Jane" type="text"/>
+</div>
+<div class="flex flex-col space-y-1.5">
+<label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider" for="lastName">Last Name</label>
+<input class="input-field w-full px-4 py-3 rounded-lg text-sm text-on-surface placeholder:text-outline-variant/60" id="lastName" name="lastName" placeholder="Doe" type="text"/>
+</div>
+</div>
+<!-- Row 2: Email -->
+<div class="flex flex-col space-y-1.5">
+<label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider" for="email">Email Address</label>
+<input class="input-field w-full px-4 py-3 rounded-lg text-sm text-on-surface placeholder:text-outline-variant/60" id="email" name="email" placeholder="jane.doe@example.com" type="email"/>
+</div>
+<!-- Row 3: Phone & City -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex flex-col space-y-1.5">
+<label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider" for="phone">Phone Number</label>
+<input class="input-field w-full px-4 py-3 rounded-lg text-sm text-on-surface placeholder:text-outline-variant/60" id="phone" name="phone" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+<div class="flex flex-col space-y-1.5">
+<label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider" for="city">City</label>
+<input class="input-field w-full px-4 py-3 rounded-lg text-sm text-on-surface placeholder:text-outline-variant/60" id="city" name="city" placeholder="Seattle" type="text"/>
+</div>
+</div>
+<!-- Row 4: Country -->
+<div class="flex flex-col space-y-1.5 relative">
+<label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider" for="country">Country</label>
+<div class="relative">
+<select class="input-field w-full px-4 py-3 rounded-lg text-sm text-on-surface appearance-none cursor-pointer" id="country" name="country">
+<option class="text-outline-variant" disabled="" selected="" value="">Select Country</option>
+<option value="us">United States</option>
+<option value="ca">Canada</option>
+<option value="uk">United Kingdom</option>
+<option value="au">Australia</option>
+<option value="jp">Japan</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Row 5: Additional Info -->
+<div class="flex flex-col space-y-1.5">
+<label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider" for="additionalInfo">Additional Info</label>
+<textarea class="input-field w-full px-4 py-3 rounded-lg text-sm text-on-surface placeholder:text-outline-variant/60 resize-none" id="additionalInfo" name="additionalInfo" placeholder="Tell us about your travel preferences..." rows="3"></textarea>
+</div>
+<!-- Submit Button -->
+<div class="pt-4">
+<button class="w-full bg-primary/80 hover:bg-primary text-on-primary font-semibold py-3.5 px-6 rounded-lg shadow-[0_0_20px_rgba(125,211,252,0.3)] hover:shadow-[0_0_30px_rgba(125,211,252,0.5)] transition-all duration-300 border border-primary-fixed/30 active:scale-[0.98] flex items-center justify-center space-x-2" type="submit">
+<span>Register User</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</form>
+<!-- Footer Link -->
+<div class="mt-6 text-center">
+<p class="text-sm text-on-surface-variant">
+                        Already have an account? 
+                        <a class="font-semibold text-primary hover:text-primary-dim transition-colors underline decoration-primary/30 underline-offset-4" href="#">Log in</a>
+</p>
+</div>
+</div>
+</div>
+</main>
+</body></html>

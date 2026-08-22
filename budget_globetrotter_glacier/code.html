@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GlobeTrotter - Budget &amp; Expenses</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#d8e2ff",
+                        "secondary-fixed-dim": "#a3cfe8",
+                        "primary-fixed": "#7bd1fa",
+                        "surface-variant": "#cfddff",
+                        "on-primary-fixed-variant": "#004f69",
+                        "on-primary": "#e5f5ff",
+                        "surface-container-highest": "#cfddff",
+                        "tertiary": "#6f4b94",
+                        "secondary-dim": "#27556a",
+                        "on-tertiary": "#fbefff",
+                        "on-primary-container": "#00465d",
+                        "error-container": "#fb5151",
+                        "tertiary-fixed": "#d6adff",
+                        "primary-dim": "#005672",
+                        "surface-container": "#e0e8ff",
+                        "on-tertiary-fixed-variant": "#55327a",
+                        "secondary-container": "#b1ddf7",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#4c2970",
+                        "on-secondary-container": "#215065",
+                        "secondary-fixed": "#b1ddf7",
+                        "on-error-container": "#570008",
+                        "tertiary-fixed-dim": "#c8a0f0",
+                        "surface-bright": "#f5f6ff",
+                        "on-tertiary-fixed": "#361059",
+                        "on-secondary-fixed": "#063d51",
+                        "surface": "#f5f6ff",
+                        "error": "#b31b25",
+                        "on-background": "#252f43",
+                        "surface-dim": "#c4d4fb",
+                        "outline": "#6d778e",
+                        "primary-fixed-dim": "#6cc3eb",
+                        "on-secondary": "#e6f5ff",
+                        "error-dim": "#9f0519",
+                        "on-error": "#ffefee",
+                        "on-surface": "#252f43",
+                        "primary": "#006382",
+                        "inverse-on-surface": "#939db6",
+                        "inverse-primary": "#7bd1fa",
+                        "on-secondary-fixed-variant": "#2c596f",
+                        "background": "#f5f6ff",
+                        "primary-container": "#7bd1fa",
+                        "secondary": "#346176",
+                        "outline-variant": "#a3adc7",
+                        "surface-tint": "#006382",
+                        "on-surface-variant": "#525b72",
+                        "tertiary-container": "#d6adff",
+                        "inverse-surface": "#040e21",
+                        "surface-container-low": "#edf0ff",
+                        "on-primary-fixed": "#003041",
+                        "tertiary-dim": "#623f87"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter", "sans-serif"],
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f5f6ff; }
+        .glass-panel {
+            background-color: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(123, 209, 250, 0.15);
+            box-shadow: 0 4px 24px rgba(0, 99, 130, 0.03);
+        }
+        .glow-effect {
+            box-shadow: 0 0 30px rgba(125, 211, 252, 0.1);
+        }
+        .chart-container { position: relative; height: 100%; width: 100%; }
+        
+        /* Subtle animated gradient background for the overall app feel */
+        .bg-mesh {
+            background-color: #f5f6ff;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(216, 226, 255, 0.4) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(224, 232, 255, 0.4) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(237, 240, 255, 0.4) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(196, 212, 251, 0.2) 0px, transparent 50%);
+        }
+    </style>
+</head>
+<body class="bg-mesh text-on-background min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col fixed left-0 top-0 h-full p-4 w-64 bg-surface-container-low/60 backdrop-blur-xl border-r border-primary/10 shadow-[0_0_30px_rgba(125,211,252,0.1)] z-50">
+<div class="mb-8 px-4 py-2">
+<h1 class="text-2xl font-headline font-bold text-primary tracking-tight">GlobeTrotter</h1>
+<p class="font-body text-label-large text-on-surface-variant">Premium Travel Planning</p>
+</div>
+<ul class="flex flex-col gap-2 flex-grow">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest/50 rounded-xl transition-all font-body text-label-large scale-95 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container/80 text-on-primary-container font-bold rounded-xl transition-all font-body text-label-large scale-95 active:scale-90 duration-200 glow-effect" href="#" style="font-variation-settings: 'FILL' 1;">
+<span class="material-symbols-outlined">explore</span>
+                    My Trips
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest/50 rounded-xl transition-all font-body text-label-large scale-95 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">add_location_alt</span>
+                    Plan a Trip
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest/50 rounded-xl transition-all font-body text-label-large scale-95 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+                    Calendar
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest/50 rounded-xl transition-all font-body text-label-large scale-95 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">groups</span>
+                    Community
+                </a>
+</li>
+<li class="mt-auto">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest/50 rounded-xl transition-all font-body text-label-large scale-95 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+                    Profile
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest/50 rounded-xl transition-all font-body text-label-large scale-95 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+                    Settings
+                </a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 ml-0 md:ml-64 flex flex-col min-h-screen relative overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-8 h-16 sticky top-0 z-40 bg-surface/40 backdrop-blur-md border-b border-primary/5">
+<div class="md:hidden">
+<h1 class="text-xl font-headline font-bold text-primary tracking-tight">GlobeTrotter</h1>
+</div>
+<div class="hidden md:flex items-center gap-4 text-body-medium font-body text-on-surface-variant">
+<div class="flex items-center bg-surface-container-low rounded-full px-4 py-2 border border-primary/10">
+<span class="material-symbols-outlined text-outline mr-2 text-[20px]">search</span>
+<input class="bg-transparent border-none outline-none text-on-surface focus:ring-0 p-0 text-sm w-48 placeholder-outline/70" placeholder="Search trips, expenses..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4 text-primary">
+<button class="opacity-80 hover:opacity-100 transition-opacity p-2 hover:bg-surface-container-highest/50 rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="opacity-80 hover:opacity-100 transition-opacity p-2 hover:bg-surface-container-highest/50 rounded-full">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-primary/20 ml-2">
+<img alt="User Settings" class="w-full h-full object-cover" data-alt="Close up portrait of a young professional traveler with subtle rim lighting in a bright, modern light-mode setting. Soft pastel colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBN41CmzkXQ8RK2n_EazvKPkA9lHfHXjujXyZRyzZM15bqD4duWiodZDnLUyA2YRYKtlgO0DsEVcdo6-y6vZmGF3jPPDPj7QEcbzssEDU-UytL66Oa_xSUjLiBovQ_QeH3QIMSIiPL2zfyHbsEwr8_05ARNiJcrq8PZmIdh5EOsp-DKuBryte1NwDOvytN-7SRiNBnKfjDqdjay8H5vrp0w-4eFcmRJqMaIKyQXptuw9eb_G2I9BjeI"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 p-6 lg:p-10 overflow-y-auto">
+<!-- Header section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
+<div>
+<div class="flex items-center gap-2 mb-2 text-primary">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+<a class="text-sm font-medium hover:underline" href="#">Back to Japan Itinerary</a>
+</div>
+<h2 class="text-3xl lg:text-4xl font-headline font-bold text-on-surface tracking-tight">Budget &amp; Expenses</h2>
+<p class="text-on-surface-variant mt-1 font-body">Tokyo &amp; Kyoto • Oct 12 - Oct 24</p>
+</div>
+<div class="flex gap-3">
+<button class="px-5 py-2.5 rounded-xl border border-primary/20 text-primary font-medium hover:bg-surface-container-high/50 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                        Export
+                    </button>
+<button class="px-5 py-2.5 rounded-xl bg-primary-container/80 text-on-primary-container font-medium hover:bg-primary-container transition-colors border border-primary/10 shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                        Add Expense
+                    </button>
+</div>
+</div>
+<!-- Warning Banner -->
+<div class="mb-8 glass-panel rounded-2xl border-error-container/30 bg-error-container/5 overflow-hidden relative">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-error-container"></div>
+<div class="p-4 flex items-start sm:items-center justify-between gap-4">
+<div class="flex items-start sm:items-center gap-3">
+<div class="p-2 bg-error-container/20 rounded-full text-error">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div>
+<h4 class="font-bold text-on-error-container text-sm">Over-budget Warning</h4>
+<p class="text-on-error-container/80 text-sm mt-0.5">Day 4 (Oct 15) exceeded daily budget by $145.00 due to 'Theme Park Tickets'.</p>
+</div>
+</div>
+<button class="text-error font-medium text-sm whitespace-nowrap hover:underline shrink-0">Review</button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
+<!-- Summary Cards -->
+<div class="glass-panel rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-container/20 rounded-full blur-2xl group-hover:bg-primary-container/40 transition-all"></div>
+<div>
+<p class="text-on-surface-variant text-sm font-medium mb-1 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+                            Total Budget
+                        </p>
+<h3 class="text-3xl font-display font-bold text-on-surface">$4,500<span class="text-lg text-outline">.00</span></h3>
+</div>
+<div class="mt-4 pt-4 border-t border-primary/5">
+<span class="text-xs text-on-surface-variant bg-surface-container px-2 py-1 rounded-md">Fixed Target</span>
+</div>
+</div>
+<div class="glass-panel rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-secondary-container/20 rounded-full blur-2xl group-hover:bg-secondary-container/40 transition-all"></div>
+<div>
+<p class="text-on-surface-variant text-sm font-medium mb-1 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+                            Total Estimated
+                        </p>
+<h3 class="text-3xl font-display font-bold text-on-surface">$3,240<span class="text-lg text-outline">.50</span></h3>
+</div>
+<div class="mt-4 pt-4 border-t border-primary/5">
+<div class="flex justify-between items-center text-xs">
+<span class="text-on-surface-variant">72% of budget</span>
+<span class="text-primary font-medium flex items-center"><span class="material-symbols-outlined text-[14px]">trending_up</span> On Track</span>
+</div>
+</div>
+</div>
+<div class="glass-panel rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden group md:col-span-1 lg:col-span-2 bg-gradient-to-br from-surface-container-low to-primary-container/10 border-primary/20 glow-effect">
+<div>
+<p class="text-primary-dim text-sm font-medium mb-1 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">savings</span>
+                            Remaining Balance
+                        </p>
+<h3 class="text-4xl font-display font-bold text-primary">$1,259<span class="text-xl opacity-70">.50</span></h3>
+</div>
+<div class="mt-4">
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full relative" style="width: 72%;">
+<div class="absolute right-0 top-0 bottom-0 w-4 bg-white/30 blur-[2px]"></div>
+</div>
+</div>
+<div class="flex justify-between mt-2 text-xs text-on-surface-variant">
+<span>Spent: $3,240.50</span>
+<span>Safe to spend: $104/day</span>
+</div>
+</div>
+</div>
+<!-- Charts Section -->
+<div class="md:col-span-3 lg:col-span-2 glass-panel rounded-3xl p-6 h-[400px] flex flex-col">
+<h3 class="text-lg font-bold text-on-surface mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">pie_chart</span>
+                        Expense Breakdown
+                    </h3>
+<div class="flex-1 relative flex items-center justify-center">
+<canvas id="donutChart"></canvas>
+<!-- Center text for donut -->
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+<span class="text-2xl font-bold text-on-surface">12</span>
+<span class="text-xs text-on-surface-variant uppercase tracking-wider">Categories</span>
+</div>
+</div>
+</div>
+<div class="md:col-span-3 lg:col-span-2 glass-panel rounded-3xl p-6 h-[400px] flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-lg font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">bar_chart</span>
+                            Daily Spending
+                        </h3>
+<select class="bg-surface-container-low border border-primary/10 rounded-lg text-xs py-1 px-2 text-on-surface-variant outline-none focus:ring-1 focus:ring-primary/30">
+<option>This Trip</option>
+<option>Week 1</option>
+</select>
+</div>
+<div class="flex-1 relative w-full">
+<canvas id="barChart"></canvas>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+        // Initialize Charts with Glacier theme colors
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // Colors from theme config
+            const colors = {
+                primary: '#006382',
+                primaryContainer: '#7bd1fa',
+                secondary: '#346176',
+                secondaryContainer: '#b1ddf7',
+                tertiary: '#6f4b94',
+                error: '#fb5151',
+                surfaceVariant: '#cfddff',
+                textLight: '#939db6',
+                textDark: '#252f43'
+            };
+
+            // Donut Chart
+            const donutCtx = document.getElementById('donutChart').getContext('2d');
+            new Chart(donutCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Stay', 'Transport', 'Meals', 'Activities', 'Misc'],
+                    datasets: [{
+                        data: [1200, 850, 640, 450, 100],
+                        backgroundColor: [
+                            colors.primary,           // Stay
+                            colors.secondary,         // Transport
+                            colors.primaryContainer,  // Meals
+                            colors.secondaryContainer,// Activities
+                            colors.surfaceVariant     // Misc
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: colors.textDark,
+                                font: { family: 'Inter', size: 12 },
+                                padding: 20,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            titleColor: colors.textDark,
+                            bodyColor: colors.textDark,
+                            borderColor: 'rgba(123, 209, 250, 0.3)',
+                            borderWidth: 1,
+                            padding: 12,
+                            boxPadding: 6,
+                            cornerRadius: 8,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) { label += ': '; }
+                                    if (context.parsed !== null) {
+                                        label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Bar Chart for Daily Spending
+            const barCtx = document.getElementById('barChart').getContext('2d');
+            new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Oct 12', 'Oct 13', 'Oct 14', 'Oct 15', 'Oct 16', 'Oct 17', 'Oct 18'],
+                    datasets: [{
+                        label: 'Daily Spend',
+                        data: [180, 210, 150, 320, 190, 240, 120],
+                        backgroundColor: function(context) {
+                            const index = context.dataIndex;
+                            // Highlight the over-budget day (Oct 15 - index 3)
+                            return index === 3 ? colors.error : colors.primaryContainer;
+                        },
+                        borderRadius: 6,
+                        barPercentage: 0.6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(207, 221, 255, 0.3)', // surface-variant with opacity
+                                drawBorder: false,
+                            },
+                            ticks: {
+                                color: colors.textLight,
+                                font: { family: 'Inter', size: 11 },
+                                callback: function(value) { return '$' + value; }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: colors.textLight,
+                                font: { family: 'Inter', size: 11 }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            titleColor: colors.textDark,
+                            bodyColor: colors.textDark,
+                            borderColor: 'rgba(123, 209, 250, 0.3)',
+                            borderWidth: 1,
+                            padding: 10,
+                            cornerRadius: 8,
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Spent: $' + context.parsed.y;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body></html>
