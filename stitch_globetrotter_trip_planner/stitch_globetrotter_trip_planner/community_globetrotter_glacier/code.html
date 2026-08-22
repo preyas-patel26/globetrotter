@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Community | GlobeTrotter</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#d8e2ff",
+                        "secondary-fixed-dim": "#a3cfe8",
+                        "primary-fixed": "#7bd1fa",
+                        "surface-variant": "#cfddff",
+                        "on-primary-fixed-variant": "#004f69",
+                        "on-primary": "#e5f5ff",
+                        "surface-container-highest": "#cfddff",
+                        "tertiary": "#6f4b94",
+                        "secondary-dim": "#27556a",
+                        "on-tertiary": "#fbefff",
+                        "on-primary-container": "#00465d",
+                        "error-container": "#fb5151",
+                        "tertiary-fixed": "#d6adff",
+                        "primary-dim": "#005672",
+                        "surface-container": "#e0e8ff",
+                        "on-tertiary-fixed-variant": "#55327a",
+                        "secondary-container": "#b1ddf7",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#4c2970",
+                        "on-secondary-container": "#215065",
+                        "secondary-fixed": "#b1ddf7",
+                        "on-error-container": "#570008",
+                        "tertiary-fixed-dim": "#c8a0f0",
+                        "surface-bright": "#f5f6ff",
+                        "on-tertiary-fixed": "#361059",
+                        "on-secondary-fixed": "#063d51",
+                        "surface": "#f5f6ff",
+                        "error": "#b31b25",
+                        "on-background": "#252f43",
+                        "surface-dim": "#c4d4fb",
+                        "outline": "#6d778e",
+                        "primary-fixed-dim": "#6cc3eb",
+                        "on-secondary": "#e6f5ff",
+                        "error-dim": "#9f0519",
+                        "on-error": "#ffefee",
+                        "on-surface": "#252f43",
+                        "primary": "#006382",
+                        "inverse-on-surface": "#939db6",
+                        "inverse-primary": "#7bd1fa",
+                        "on-secondary-fixed-variant": "#2c596f",
+                        "background": "#f5f6ff",
+                        "primary-container": "#7bd1fa",
+                        "secondary": "#346176",
+                        "outline-variant": "#a3adc7",
+                        "surface-tint": "#006382",
+                        "on-surface-variant": "#525b72",
+                        "tertiary-container": "#d6adff",
+                        "inverse-surface": "#040e21",
+                        "surface-container-low": "#edf0ff",
+                        "on-primary-fixed": "#003041",
+                        "tertiary-dim": "#623f87"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter", "sans-serif"],
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background-color: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(125, 211, 252, 0.15);
+        }
+        .glass-card {
+            background-color: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(125, 211, 252, 0.15);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            box-shadow: 0 0 30px rgba(125, 211, 252, 0.1);
+            transform: translateY(-2px);
+        }
+        .chip {
+            background-color: rgba(177, 221, 247, 0.3); /* secondary-container with opacity */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(125, 211, 252, 0.2);
+        }
+        .chip.active {
+            background-color: rgba(123, 209, 250, 0.8); /* primary-container */
+            color: #00465d; /* on-primary-container */
+            border-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body min-h-screen flex selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar (Web) -->
+<nav class="hidden md:flex flex-col fixed left-0 top-0 h-full p-4 w-64 bg-surface-container-low/60 backdrop-blur-xl border-r border-primary/10 shadow-[0_0_30px_rgba(125,211,252,0.1)] z-50">
+<div class="mb-10 px-4 pt-4">
+<h1 class="text-2xl font-headline font-bold text-primary tracking-tight">GlobeTrotter</h1>
+<p class="text-xs text-on-surface-variant mt-1">Premium Travel Planning</p>
+</div>
+<ul class="flex flex-col gap-2 font-body text-label-large">
+<li>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high/40 rounded-xl transition-all scale-95 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high/40 rounded-xl transition-all scale-95 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">explore</span>
+                    My Trips
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high/40 rounded-xl transition-all scale-95 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">add_location_alt</span>
+                    Plan a Trip
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high/40 rounded-xl transition-all scale-95 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+                    Calendar
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-4 px-4 py-3 bg-primary-container/80 text-on-primary-container font-bold rounded-xl scale-95 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+                    Community
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high/40 rounded-xl transition-all scale-95 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+                    Profile
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high/40 rounded-xl transition-all scale-95 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+                    Settings
+                </a>
+</li>
+</ul>
+<div class="mt-auto px-4 pb-4">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover border border-primary/20" data-alt="A small circular avatar portrait of a modern professional user, well-lit, soft studio lighting, light mode UI aesthetic, subtle cool tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4u7JPQCbLPKfDhESOhoh_u4TvOQ0GHwMwYQT69ePsHR8JYNMTiufmyBrdpKhne_1mRwzxjpPjERJNsytQ62DOneQDZGILoJtCkOQOV2oSpW4P2IvXiSJd3JxSOIy-HisCSlvU-UCXOvRD6OyjfnP2zYiMSJBu7fNqMwM_7XcJfo9GrUx0a0VpwcVUSnjuFP3bEmAvhQJ4x56Wdz4vTDElKj7WXWs__rehy1nfipb0hVuY2ElAHyBF"/>
+<div class="text-sm">
+<p class="font-medium text-on-background">Alex River</p>
+<p class="text-xs text-on-surface-variant">Explorer Pro</p>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 md:ml-64 flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-8 h-16 sticky top-0 z-40 bg-surface/40 backdrop-blur-md">
+<!-- Mobile Brand (Hidden on Desktop) -->
+<div class="md:hidden">
+<h1 class="text-xl font-headline font-bold text-primary tracking-tight">GlobeTrotter</h1>
+</div>
+<!-- Search -->
+<div class="hidden md:flex flex-1 max-w-md">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/70 text-sm">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-highest/30 border border-primary/10 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-transparent transition-all placeholder:text-on-surface-variant/50" placeholder="Search destinations, creators..." type="text"/>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-6 text-primary">
+<button class="opacity-80 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="opacity-80 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="md:hidden">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A small circular avatar portrait of a modern professional user, well-lit, soft studio lighting, light mode UI aesthetic, subtle cool tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqE-qSJIUk8qVOOVJ9d6qA7h3WcYUoAOLnn_dXjYFWi4E183GlRVH0xHZ8w9WGJhR_VsnJyAlbxpt7NEZE4rsoeHCbjmnDAMy4zZJPkYsS-3hRJHs3TET4TuzxqhmH8Z1cSF24utnqGQLx8XrCM-7ml7r0u11cXGETimuOyvj3tcd9GCKFU__u64DH3q6wK-tz3H6-Ro_iW8zFgWWoSSDE8zPrUsqqsTIxG-Pj-X_w8MDMoqj-nDki"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 p-6 md:p-8 lg:p-12">
+<header class="mb-10 max-w-4xl">
+<h1 class="text-4xl md:text-5xl font-display font-bold text-on-background mb-4 tracking-tight">Discover Inspiration</h1>
+<p class="text-lg text-on-surface-variant">Explore premium itineraries crafted by our community of global travelers.</p>
+</header>
+<!-- Filters -->
+<div class="flex flex-wrap gap-3 mb-10">
+<button class="chip active px-5 py-2 rounded-full text-sm font-medium transition-all">Popular</button>
+<button class="chip text-secondary px-5 py-2 rounded-full text-sm font-medium transition-all hover:bg-secondary-container/50">Recent</button>
+<button class="chip text-secondary px-5 py-2 rounded-full text-sm font-medium transition-all hover:bg-secondary-container/50">Budget Friendly</button>
+<button class="chip text-secondary px-5 py-2 rounded-full text-sm font-medium transition-all hover:bg-secondary-container/50">Adventure</button>
+<button class="chip text-secondary px-5 py-2 rounded-full text-sm font-medium transition-all hover:bg-secondary-container/50">Nature</button>
+</div>
+<!-- Bento Grid / Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<article class="glass-card rounded-2xl overflow-hidden flex flex-col group cursor-pointer">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" data-alt="A breathtaking panoramic photograph of a majestic Icelandic waterfall crashing into a deep canyon. The scene is illuminated by crisp, soft natural light typical of a bright overcast day. The landscape features vibrant green moss clinging to dark volcanic rock, with a subtle glacial blue tint in the mist. The aesthetic is clean, premium, and airy, fitting a modern light-mode travel UI. High resolution, professional travel photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0E9-D_2CaTnRh44WQCdY3X9Idpos6YrzV3mIqYiOdWnTUUo1SzuMGEFnxX_3tgUEEmDfPWamzwqA8T1usxvg2apADzB87yrBvOo0lD5AfOBPUTerOLsUyhaoxT8zNtIcl9okzeOAXU8_4E7TqEYZNR3Cnps9cwR8Kcz_QTsh8R9spUK5qrSCmsm11K0_xWuedmYGKMlvFY7O8SW34wxN9KwC6MlxCht1XUnJ9-Buy0Rn97nVqYHbr"/>
+<div class="absolute top-4 right-4 bg-surface-container-lowest/80 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-1 text-xs font-medium text-primary">
+<span class="material-symbols-outlined text-[16px]">favorite</span> 1.2k
+                        </div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h2 class="text-xl font-headline font-semibold text-on-background leading-tight">7 Days in Iceland: The Ring Road Express</h2>
+</div>
+<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">Experience the land of fire and ice. Waterfalls, glaciers, and volcanic landscapes in a compact week-long adventure.</p>
+<div class="mt-auto pt-4 border-t border-primary/10 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A portrait of a female travel photographer with short hair, smiling gently. Soft bright lighting, professional headshot, light aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnOZiN8ncPyUt-PpXrNJOGFXHaJqc_KaNmjm13nGFBDtf1hsiLcpAN1mRZskFTYG-AXy3WsWaVD0hxG9ZBiZvFCaW0j23EiN-hj3efU8vTSaWR76tOUMMgbBBh8-DI4NkInJxtJx_Lv467scat9jel9JCOtzq3zP1Yke4CLcDAMAz662x4GV7QeaoCvP1l5XCWAqnTu1tpunrwyl4iXLhWRKr0kJwwLP7Pw2yTiGQiSe2IT-aNuTv-"/>
+<span class="text-sm font-medium text-secondary">Sarah Jenkins</span>
+</div>
+<div class="text-right text-xs text-on-surface-variant flex flex-col gap-1">
+<span class="flex items-center gap-1 justify-end"><span class="material-symbols-outlined text-[14px]">schedule</span> 7 Days</span>
+<span class="flex items-center gap-1 justify-end text-primary-dim font-medium"><span class="material-symbols-outlined text-[14px]">payments</span> Est. $1,800</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="glass-card rounded-2xl overflow-hidden flex flex-col group cursor-pointer">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" data-alt="A stunning view of the Norwegian fjords from a high vantage point. Deep blue waters contrast with lush green mountainsides under a clear, bright sky. A small red cabin sits near the water's edge. The aesthetic is crisp, serene, and premium, evoking a sense of calm and clarity. Suitable for a modern, light-themed travel application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFqQ9ABJRTVikTSX1dM7tP_7zQJ8hI08g8IMjtcRkJASkiMVDHk7OamXYa_SP9Q6P1nZmeQL200HcP-d3XJcWLkCTwpdokW5o2sP0n-MfUr_J3DHIgNo0skerJJ1k7_HW0YMxuk6Yt_5S3amOOZHOJ-gimDrDKBGIBskKHXh2_8SQUD_NXdQz6JyznwmqAg6-BgDKn-7YXyPrubFcu3B5aKmhx8kUh_wQNRrBgW4RKVWbIWEBi4r0q"/>
+<div class="absolute top-4 right-4 bg-surface-container-lowest/80 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-1 text-xs font-medium text-primary">
+<span class="material-symbols-outlined text-[16px]">favorite</span> 856
+                        </div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h2 class="text-xl font-headline font-semibold text-on-background leading-tight">Norwegian Fjord Explorer</h2>
+</div>
+<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">A scenic drive through Norway's western fjords. Includes hiking routes to Trolltunga and scenic ferry crossings.</p>
+<div class="mt-auto pt-4 border-t border-primary/10 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A portrait of a male hiker with a light beard, wearing a casual outdoor jacket. Soft bright lighting, clean background, light aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWSgruGueeEbW-TTzBzfGkvk3i_ZlskoEqGOAg2mJeuUwvnfC1hzKPpBUTJBu8JqeyeQobLAqq7BwkBVrUAQbU-Tk2mEa9O15JYpIjIInB-xVeXSDN_8hSnbctjZHzubi8Ueiu4YOHd45nJPLnt5ZgwCIlQgcIRtm6eLmwUEWtdRjf7tGT64c_65nQ57q-IaBSMMaqltCgBTnwXmdG3nSaQGQPatNCkz0FYwgiIvARxjo8abokYmg3"/>
+<span class="text-sm font-medium text-secondary">Markus O.</span>
+</div>
+<div class="text-right text-xs text-on-surface-variant flex flex-col gap-1">
+<span class="flex items-center gap-1 justify-end"><span class="material-symbols-outlined text-[14px]">schedule</span> 10 Days</span>
+<span class="flex items-center gap-1 justify-end text-primary-dim font-medium"><span class="material-symbols-outlined text-[14px]">payments</span> Est. $2,200</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="glass-card rounded-2xl overflow-hidden flex flex-col group cursor-pointer">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" data-alt="A dramatic landscape shot of the jagged peaks of Patagonia, specifically Mount Fitz Roy, reflecting in a crystal-clear alpine lake. The sky is a bright, clear blue with soft, wispy clouds. The scene is illuminated by crisp, morning light, enhancing the cool, fresh, 'frozen light' aesthetic of the design system. Premium, airy, and expansive." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWSR9a-FyfZvjKU77JU3ZAtXpfQ3koqcL7rsgTq0gWNMa8ibZ_BHzP7IU5zDXBl8BC6q_rwC7qa8v2954ZyKllA2f482XX88clDTy--cgX3Gx3C2DBTllPOPlsarewGTs7N7A8ImVotuyXOQrjpCmbzeGZxzOdmFs67ZzjgH945HYdlZgJ0c_iFZ8QXOv92Pbw_goIFEU4fropycofb0PjnpfX11BtqnR43nKT-nvTLx5q8ZJzlUMX"/>
+<div class="absolute top-4 right-4 bg-surface-container-lowest/80 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-1 text-xs font-medium text-primary">
+<span class="material-symbols-outlined text-[16px]">favorite</span> 2.1k
+                        </div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h2 class="text-xl font-headline font-semibold text-on-background leading-tight">Patagonia Trekking Circuit</h2>
+</div>
+<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">The ultimate hiking experience through Torres del Paine and Los Glaciares National Park.</p>
+<div class="mt-auto pt-4 border-t border-primary/10 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A portrait of an adventurous couple smiling. Well lit, outdoor natural light, soft aesthetic, light mode friendly." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKsFoJbvBLMDC1RC3zqRhj9X35U7Ev7KzCnuNC6Iph5kreW2550M0iWMlTu7FHWEVFdwQsLy3LacxbF_8EGXZeRoknrC5U88vX_73wV1fEbN6umUc-R9n7eTHIvYAABzaKBIWvDW5hkmsQseL-Ll38shJF0IL-sfQhCYn02oKNWuhqkCkjl6BjawS9IAGK8iQMtyQl7_p6RonbKD8rtFNOiUxNTDDhWvvW7s6cPDn6pBT89hW65u9C"/>
+<span class="text-sm font-medium text-secondary">Elena &amp; Tom</span>
+</div>
+<div class="text-right text-xs text-on-surface-variant flex flex-col gap-1">
+<span class="flex items-center gap-1 justify-end"><span class="material-symbols-outlined text-[14px]">schedule</span> 14 Days</span>
+<span class="flex items-center gap-1 justify-end text-primary-dim font-medium"><span class="material-symbols-outlined text-[14px]">payments</span> Est. $1,500</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 4 (Horizontal span on lg screens) -->
+<article class="glass-card rounded-2xl overflow-hidden flex flex-col md:flex-row group cursor-pointer md:col-span-2 xl:col-span-3">
+<div class="relative h-64 md:h-auto md:w-2/5 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" data-alt="A serene, aerial view of the Swiss Alps in summer. Rolling green hills dotted with tiny chalets give way to towering, snow-capped peaks in the background. The lighting is bright and clear, conveying a sense of fresh alpine air and a premium travel experience. The aesthetic aligns with a light, cool-toned 'frozen light' design system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbV0H6O4hYW7rIkN9cboBl_UpP7oD89DiyRa-GqjKVbvHLdTYpG31_dOe_dL1ouCJVojfbmd2EyjmwW189yoDnOFy9oKxwIcJu3_V9pidCLu9OLNevFKmYyn6kx_23A7F4PmRfm7dDW7SRYXM76NLsyroqH3V42N2IidKSEj8V44uOvfHeralqbiWXbpmuX1Ml1I9_6jKRPvxWnI3dfCCqLCEweplsSz3C_rx3O_XTIC3wWj0JE3Vb"/>
+<div class="absolute top-4 left-4 bg-tertiary-container/80 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-1 text-xs font-bold text-on-tertiary-container">
+<span class="material-symbols-outlined text-[14px]">verified</span> Featured
+                        </div>
+</div>
+<div class="p-6 md:p-8 flex-1 flex flex-col justify-center">
+<div class="flex items-center gap-3 mb-3">
+<span class="bg-surface-container-high px-2 py-1 rounded text-xs font-medium text-secondary-dim">Luxury</span>
+<span class="bg-surface-container-high px-2 py-1 rounded text-xs font-medium text-secondary-dim">Scenic</span>
+</div>
+<h2 class="text-2xl md:text-3xl font-headline font-bold text-on-background mb-3">The Glacier Express Route</h2>
+<p class="text-base text-on-surface-variant mb-8 max-w-2xl">A premium rail journey through the Swiss Alps, combining luxury accommodations with breathtaking panoramic views from Zermatt to St. Moritz. Carefully curated dining and excursion stops included.</p>
+<div class="mt-auto pt-6 border-t border-primary/10 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="Professional headshot of an older gentleman with silver hair in a tailored blazer. Clean studio lighting, bright background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDq2VvQu_C1w2FXew42fDwIMXYJJH1zfUoxPP_xbhIfcnfX-DFZg0vhaSYu80AW8eKmg3d_NPeziI0YcCzrwE8DenejUkaHq9rxH1br5fsuCkg2L-ExcvmwMGb8epzXOWhxop5oZv5FcdY5HUwpR8JLM8iw8cWBnhRXEvM_19_WMjE0gqAM4b8h8Ecmw3r80to4Pdckp7Joo8DaAyMeRf87yvyv80pAwQB8F3uO_OeIbnjEAdOTqz-W"/>
+<div>
+<span class="block text-sm font-medium text-secondary">Curated by GlobeTrotter Luxe</span>
+<span class="block text-xs text-on-surface-variant">Expert Guide</span>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="text-right flex flex-col">
+<span class="text-xs text-on-surface-variant uppercase tracking-wider">Duration</span>
+<span class="font-medium text-on-background">5 Days</span>
+</div>
+<div class="w-px h-8 bg-primary/20"></div>
+<div class="text-right flex flex-col">
+<span class="text-xs text-on-surface-variant uppercase tracking-wider">Cost</span>
+<span class="font-medium text-primary-dim">Est. $4,500</span>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+</main>
+</div>
+<!-- Mobile BottomNavBar -->
+<nav class="md:hidden flex justify-between items-center w-full px-4 h-16 fixed bottom-0 z-50 bg-surface-container-low/60 backdrop-blur-xl border-t-0 shadow-[0_-10px_30px_rgba(125,211,252,0.05)]">
+<a class="flex flex-col items-center justify-center w-16 h-full text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="text-[10px] mt-1">My Trips</span>
+</a>
+<a class="flex flex-col items-center justify-center w-16 h-full text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">add_location_alt</span>
+<span class="text-[10px] mt-1">Plan</span>
+</a>
+<a class="flex flex-col items-center justify-center w-16 h-full text-primary font-bold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="text-[10px] mt-1">Community</span>
+</a>
+<a class="flex flex-col items-center justify-center w-16 h-full text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="text-[10px] mt-1">Profile</span>
+</a>
+</nav>
+</body></html>
