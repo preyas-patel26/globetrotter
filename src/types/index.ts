@@ -12,6 +12,7 @@ export interface Activity {
   rating?: number;
   tags?: string[];
   notes?: string;
+  completed?: boolean;
 }
 
 export interface DayItinerary {
@@ -35,6 +36,11 @@ export interface DestinationStop {
   region?: string;
   costLevel?: 'Low' | 'Med' | 'High';
   description?: string;
+  weatherForecast?: {
+    temp: string;
+    condition: string;
+    icon: string;
+  };
   days: DayItinerary[];
 }
 
@@ -57,6 +63,13 @@ export interface ExpenseItem {
   dayNumber?: number;
 }
 
+export interface PackingItem {
+  id: string;
+  title: string;
+  category: 'Essentials' | 'Clothing' | 'Electronics' | 'Documents';
+  packed: boolean;
+}
+
 export interface Trip {
   id: string;
   userId?: string;
@@ -73,6 +86,8 @@ export interface Trip {
   likesCount?: number;
   destinations: DestinationStop[];
   customExpenses?: ExpenseItem[];
+  packingList?: PackingItem[];
+  currency?: 'USD' | 'EUR' | 'INR' | 'GBP';
 }
 
 export interface UserProfile {

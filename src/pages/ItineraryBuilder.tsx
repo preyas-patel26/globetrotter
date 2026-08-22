@@ -10,13 +10,17 @@ import {
   MapPin,
   Calendar as CalendarIcon,
   Trash2,
-  DollarSign,
-  Clock,
   CheckCircle,
+  Printer,
+  ListFilter,
+  Sun,
+  CheckSquare,
+  Square,
+  PackageCheck,
 } from 'lucide-react';
 import { useTrips } from '../context/TripContext';
 import { Modal } from '../components/common/Modal';
-import { Activity, DestinationStop } from '../types';
+import { Activity, DestinationStop, PackingItem } from '../types';
 
 export const ItineraryBuilder: React.FC = () => {
   const { tripId } = useParams<{ tripId: string }>();
@@ -28,12 +32,17 @@ export const ItineraryBuilder: React.FC = () => {
     addActivityToStop,
     removeActivityFromStop,
     updateActivityCost,
+    togglePackingItem,
+    addPackingItem,
     destinations,
   } = useTrips();
 
   const trip = getTrip(tripId || 'trip_rajasthan') || getTrip('trip_rajasthan');
 
-  // Modals state
+  // View Mode: Timeline List vs Calendar Grid
+  const [viewMode, setViewMode] = useState<'timeline' | 'calendar'>('timeline');
+
+  // Modals & packing states
   const [showAddStopModal, setShowAddStopModal] = useState(false);
   const [showAddActivityModal, setShowAddActivityModal] = useState<{
     stopId: string;
@@ -43,6 +52,8 @@ export const ItineraryBuilder: React.FC = () => {
   const [editingCostId, setEditingCostId] = useState<string | null>(null);
   const [tempCostValue, setTempCostValue] = useState<number>(0);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [newPackingTitle, setNewPackingTitle] = useState('');
+  const [newPackingCategory, setNewPackingCategory] = useState<PackingItem['category']>('Essentials');
 
   if (!trip) {
     return <div className="p-8 text-center text-outline">Trip not found.</div>;
@@ -99,9 +110,18 @@ export const ItineraryBuilder: React.FC = () => {
     showToast(`Activity cost updated to $${tempCostValue}`);
   };
 
+  const handleAddPackingSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPackingTitle.trim()) {
+      addPackingItem(trip.id, newPackingTitle.trim(), newPackingCategory);
+      setNewPackingTitle('');
+      showToast(`Added "${newPackingTitle}" to packing list.`);
+    }
+  };
+
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
-      {/* Toast Banner Notification */}
+      {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 bg-on-surface text-surface px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 animate-in slide-in-from-bottom-3 border border-outline-variant/40 text-xs font-semibold">
           <CheckCircle className="w-4 h-4 text-emerald-400" />
@@ -141,7 +161,42 @@ export const ItineraryBuilder: React.FC = () => {
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
+          {/* Controls & Actions */}
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* View Mode Toggle (Timeline vs Calendar) */}
+            <div className="flex items-center p-1 rounded-xl bg-surface-container border border-outline-variant/40">
+              <button
+                onClick={() => setViewMode('timeline')}
+                className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  viewMode === 'timeline'
+                    ? 'bg-white text-primary shadow-sm'
+                    : 'text-outline hover:text-on-surface'
+                }`}
+              >
+                <ListFilter className="w-3.5 h-3.5" />
+                <span>List</span>
+              </button>
+              <button
+                onClick={() => setViewMode('calendar')}
+                className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  viewMode === 'calendar'
+                    ? 'bg-white text-primary shadow-sm'
+                    : 'text-outline hover:text-on-surface'
+                }`}
+              >
+                <CalendarIcon className="w-3.5 h-3.5" />
+                <span>Calendar</span>
+              </button>
+            </div>
+
+            <button
+              onClick={() => window.print()}
+              className="p-2.5 rounded-xl border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low text-xs font-bold text-on-surface transition-colors"
+              title="Print / Export PDF Itinerary"
+            >
+              <Printer className="w-4 h-4 text-outline" />
+            </button>
+
             <button
               onClick={() => navigate(`/shared/${trip.id}`)}
               className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low text-xs font-bold text-on-surface transition-colors"
@@ -163,175 +218,273 @@ export const ItineraryBuilder: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Timeline Stops Workspace */}
-      <div className="space-y-6">
-        {trip.destinations.map((stop) => (
+      {/* VIEW MODE 1: TIMELINE LIST */}
+      {viewMode === 'timeline' ? (
+        <div className="space-y-6">
+          {trip.destinations.map((stop) => (
+            <div
+              key={stop.id}
+              className="glass-card rounded-3xl p-6 shadow-sm hover:shadow-md transition-all border border-outline-variant/30 relative"
+            >
+              {/* City Stop Title & Weather Badge */}
+              <div className="flex items-center justify-between pb-4 border-b border-outline-variant/40 mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-4 h-4 rounded-full bg-primary ring-4 ring-primary/20" />
+                  <div>
+                    <h2 className="font-headline font-bold text-xl text-on-surface flex items-center gap-2">
+                      <span>{stop.city}</span>
+                      <span className="text-xs px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-semibold">
+                        {stop.nights || 3} Nights
+                      </span>
+                    </h2>
+                    <p className="text-xs text-outline mt-0.5">
+                      {stop.startDate} - {stop.endDate}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  {/* Climate Forecast Badge */}
+                  <span className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-200 text-xs font-semibold">
+                    <Sun className="w-3.5 h-3.5 text-amber-600" />
+                    <span>24°C • Sunny</span>
+                  </span>
+
+                  <button
+                    onClick={() => removeStopFromTrip(trip.id, stop.id)}
+                    className="p-2 rounded-xl text-outline hover:text-error hover:bg-error-container/30 transition-colors"
+                    title="Remove Stop"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                  <button className="p-2 rounded-xl text-outline hover:bg-surface-container-low">
+                    <MoreHorizontal className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Days Timeline Layout */}
+              <div className="space-y-6 pl-4 border-l-2 border-primary/20 ml-2">
+                {stop.days.map((day) => (
+                  <div key={day.dayNumber} className="relative pl-6">
+                    <div className="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-primary-container border-2 border-primary" />
+
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="font-headline font-bold text-sm text-on-surface">
+                        Day {day.dayNumber}: {day.date}
+                      </h3>
+
+                      <button
+                        onClick={() =>
+                          setShowAddActivityModal({ stopId: stop.id, dayNumber: day.dayNumber })
+                        }
+                        className="flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                        <span>Add Activity</span>
+                      </button>
+                    </div>
+
+                    {/* Activities List */}
+                    {day.activities.length > 0 ? (
+                      <div className="space-y-3">
+                        {day.activities.map((act) => {
+                          const CategoryIcon =
+                            act.category === 'Transport'
+                              ? Plane
+                              : act.category === 'Hotel'
+                              ? Building
+                              : MapPin;
+
+                          return (
+                            <div
+                              key={act.id}
+                              className="bg-surface-container-lowest/90 border border-outline-variant/40 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm hover:border-primary/40 transition-all"
+                            >
+                              <div className="flex items-start gap-3">
+                                <div className="w-9 h-9 rounded-xl bg-primary-container/40 flex items-center justify-center text-primary flex-shrink-0 mt-0.5">
+                                  <CategoryIcon className="w-4 h-4 text-primary" />
+                                </div>
+
+                                <div>
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-xs font-semibold text-outline">
+                                      {act.time}
+                                    </span>
+                                    <h4 className="font-bold text-sm text-on-surface">
+                                      {act.name}
+                                    </h4>
+                                  </div>
+                                  <p className="text-xs text-outline mt-0.5">{act.description}</p>
+                                </div>
+                              </div>
+
+                              {/* Cost Display & Inline Edit */}
+                              <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-0 border-outline-variant/30">
+                                {editingCostId === act.id ? (
+                                  <div className="flex items-center gap-1.5">
+                                    <span className="text-xs text-outline">$</span>
+                                    <input
+                                      type="number"
+                                      value={tempCostValue}
+                                      onChange={(e) => setTempCostValue(Number(e.target.value))}
+                                      className="w-16 px-2 py-1 text-xs rounded border border-primary focus:outline-none"
+                                    />
+                                    <button
+                                      onClick={() =>
+                                        handleCostSave(stop.id, day.dayNumber, act.id)
+                                      }
+                                      className="text-[11px] px-2 py-1 bg-primary text-white rounded font-bold"
+                                    >
+                                      Save
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <div
+                                    onClick={() => {
+                                      setEditingCostId(act.id);
+                                      setTempCostValue(act.estimatedCost || 0);
+                                    }}
+                                    className="text-right cursor-pointer hover:opacity-80 transition-opacity"
+                                    title="Click to edit cost"
+                                  >
+                                    <span className="text-[10px] text-outline font-bold block uppercase">
+                                      EST. COST
+                                    </span>
+                                    <span className="font-bold text-sm text-on-surface">
+                                      ${act.estimatedCost || 0}
+                                    </span>
+                                  </div>
+                                )}
+
+                                <button
+                                  onClick={() =>
+                                    removeActivityFromStop(trip.id, stop.id, day.dayNumber, act.id)
+                                  }
+                                  className="p-1.5 text-outline hover:text-error rounded-lg"
+                                  title="Delete activity"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <div className="border border-dashed border-outline-variant rounded-2xl p-4 text-center text-xs text-outline bg-surface-container-lowest/50">
+                        Day {day.dayNumber}: Empty — Click "+ Add Activity" to schedule sights or meals.
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          {/* "+ Add Another Stop" Dashed Card */}
           <div
-            key={stop.id}
-            className="glass-card rounded-3xl p-6 shadow-sm hover:shadow-md transition-all border border-outline-variant/30 relative"
+            onClick={() => setShowAddStopModal(true)}
+            className="border-2 border-dashed border-outline-variant hover:border-primary rounded-3xl p-8 text-center cursor-pointer transition-all bg-surface-container-lowest/50 hover:bg-surface-container-lowest shadow-sm group"
           >
-            {/* City Stop Title */}
-            <div className="flex items-center justify-between pb-4 border-b border-outline-variant/40 mb-6">
-              <div className="flex items-center gap-3">
-                <div className="w-4 h-4 rounded-full bg-primary ring-4 ring-primary/20" />
-                <div>
-                  <h2 className="font-headline font-bold text-xl text-on-surface flex items-center gap-2">
-                    <span>{stop.city}</span>
-                    <span className="text-xs px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-semibold">
-                      {stop.nights || 3} Nights
-                    </span>
-                  </h2>
-                  <p className="text-xs text-outline mt-0.5">
-                    {stop.startDate} - {stop.endDate}
+            <div className="w-12 h-12 rounded-full bg-primary-container/50 flex items-center justify-center text-primary mx-auto mb-3 group-hover:scale-110 transition-transform">
+              <MapPin className="w-6 h-6 text-primary" />
+            </div>
+            <h3 className="font-headline font-bold text-base text-on-surface">Add Another Stop</h3>
+            <p className="text-xs text-outline mt-0.5">Continue your journey across new cities</p>
+          </div>
+        </div>
+      ) : (
+        /* VIEW MODE 2: CALENDAR GRID VIEW */
+        <div className="glass-card-elevated rounded-3xl p-8 shadow-md border border-outline-variant/30 space-y-6">
+          <div className="flex items-center justify-between pb-4 border-b border-outline-variant/40">
+            <h3 className="font-headline font-bold text-lg text-on-surface flex items-center gap-2">
+              <CalendarIcon className="w-5 h-5 text-primary" />
+              <span>Itinerary Calendar Grid View</span>
+            </h3>
+            <span className="text-xs text-outline font-semibold">Oct 12 - Oct 25, 2024</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {trip.destinations.flatMap((stop) =>
+              stop.days.map((day) => (
+                <div
+                  key={day.dayNumber}
+                  className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/40 space-y-2 hover:border-primary/40 transition-colors"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-primary">Day {day.dayNumber}</span>
+                    <span className="text-[11px] font-semibold text-outline">{day.date}</span>
+                  </div>
+                  <h4 className="font-bold text-sm text-on-surface">{stop.city}</h4>
+                  <p className="text-xs text-outline">
+                    {day.activities.length} activity scheduled
                   </p>
                 </div>
-              </div>
+              ))
+            )}
+          </div>
+        </div>
+      )}
 
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => removeStopFromTrip(trip.id, stop.id)}
-                  className="p-2 rounded-xl text-outline hover:text-error hover:bg-error-container/30 transition-colors"
-                  title="Remove Stop"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-                <button className="p-2 rounded-xl text-outline hover:bg-surface-container-low">
-                  <MoreHorizontal className="w-5 h-5" />
-                </button>
-              </div>
+      {/* PACKING & ESSENTIALS CHECKLIST WIDGET */}
+      <div className="glass-card-elevated rounded-3xl p-6 md:p-8 shadow-md border border-outline-variant/30 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-outline-variant/40">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-primary-container/40 flex items-center justify-center text-primary">
+              <PackageCheck className="w-5 h-5" />
             </div>
-
-            {/* Days Timeline Layout */}
-            <div className="space-y-6 pl-4 border-l-2 border-primary/20 ml-2">
-              {stop.days.map((day) => (
-                <div key={day.dayNumber} className="relative pl-6">
-                  {/* Timeline Dot */}
-                  <div className="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-primary-container border-2 border-primary" />
-
-                  {/* Day Header */}
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-headline font-bold text-sm text-on-surface">
-                      Day {day.dayNumber}: {day.date}
-                    </h3>
-
-                    <button
-                      onClick={() =>
-                        setShowAddActivityModal({ stopId: stop.id, dayNumber: day.dayNumber })
-                      }
-                      className="flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
-                    >
-                      <Plus className="w-3.5 h-3.5" />
-                      <span>Add Activity</span>
-                    </button>
-                  </div>
-
-                  {/* Activities List */}
-                  {day.activities.length > 0 ? (
-                    <div className="space-y-3">
-                      {day.activities.map((act) => {
-                        const CategoryIcon =
-                          act.category === 'Transport'
-                            ? Plane
-                            : act.category === 'Hotel'
-                            ? Building
-                            : MapPin;
-
-                        return (
-                          <div
-                            key={act.id}
-                            className="bg-surface-container-lowest/90 border border-outline-variant/40 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm hover:border-primary/40 transition-all"
-                          >
-                            <div className="flex items-start gap-3">
-                              <div className="w-9 h-9 rounded-xl bg-primary-container/40 flex items-center justify-center text-primary flex-shrink-0 mt-0.5">
-                                <CategoryIcon className="w-4 h-4 text-primary" />
-                              </div>
-
-                              <div>
-                                <div className="flex items-center gap-2">
-                                  <span className="text-xs font-semibold text-outline">
-                                    {act.time}
-                                  </span>
-                                  <h4 className="font-bold text-sm text-on-surface">
-                                    {act.name}
-                                  </h4>
-                                </div>
-                                <p className="text-xs text-outline mt-0.5">{act.description}</p>
-                              </div>
-                            </div>
-
-                            {/* Cost Display & Inline Edit */}
-                            <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-0 border-outline-variant/30">
-                              {editingCostId === act.id ? (
-                                <div className="flex items-center gap-1.5">
-                                  <span className="text-xs text-outline">$</span>
-                                  <input
-                                    type="number"
-                                    value={tempCostValue}
-                                    onChange={(e) => setTempCostValue(Number(e.target.value))}
-                                    className="w-16 px-2 py-1 text-xs rounded border border-primary focus:outline-none"
-                                  />
-                                  <button
-                                    onClick={() =>
-                                      handleCostSave(stop.id, day.dayNumber, act.id)
-                                    }
-                                    className="text-[11px] px-2 py-1 bg-primary text-white rounded font-bold"
-                                  >
-                                    Save
-                                  </button>
-                                </div>
-                              ) : (
-                                <div
-                                  onClick={() => {
-                                    setEditingCostId(act.id);
-                                    setTempCostValue(act.estimatedCost || 0);
-                                  }}
-                                  className="text-right cursor-pointer hover:opacity-80 transition-opacity"
-                                  title="Click to edit cost"
-                                >
-                                  <span className="text-[10px] text-outline font-bold block uppercase">
-                                    EST. COST
-                                  </span>
-                                  <span className="font-bold text-sm text-on-surface">
-                                    ${act.estimatedCost || 0}
-                                  </span>
-                                </div>
-                              )}
-
-                              <button
-                                onClick={() =>
-                                  removeActivityFromStop(trip.id, stop.id, day.dayNumber, act.id)
-                                }
-                                className="p-1.5 text-outline hover:text-error rounded-lg"
-                                title="Delete activity"
-                              >
-                                <Trash2 className="w-3.5 h-3.5" />
-                              </button>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ) : (
-                    <div className="border border-dashed border-outline-variant rounded-2xl p-4 text-center text-xs text-outline bg-surface-container-lowest/50">
-                      Day {day.dayNumber}: Empty — Click "+ Add Activity" to schedule sights or meals.
-                    </div>
-                  )}
-                </div>
-              ))}
+            <div>
+              <h3 className="font-headline font-bold text-lg text-on-surface">
+                Trip Packing Checklist
+              </h3>
+              <p className="text-xs text-outline">Keep track of essential travel documents, gear, and clothing.</p>
             </div>
           </div>
-        ))}
 
-        {/* "+ Add Another Stop" Dashed Card */}
-        <div
-          onClick={() => setShowAddStopModal(true)}
-          className="border-2 border-dashed border-outline-variant hover:border-primary rounded-3xl p-8 text-center cursor-pointer transition-all bg-surface-container-lowest/50 hover:bg-surface-container-lowest shadow-sm group"
-        >
-          <div className="w-12 h-12 rounded-full bg-primary-container/50 flex items-center justify-center text-primary mx-auto mb-3 group-hover:scale-110 transition-transform">
-            <MapPin className="w-6 h-6 text-primary" />
-          </div>
-          <h3 className="font-headline font-bold text-base text-on-surface">Add Another Stop</h3>
-          <p className="text-xs text-outline mt-0.5">Continue your journey across new cities</p>
+          <form onSubmit={handleAddPackingSubmit} className="flex items-center gap-2">
+            <input
+              type="text"
+              value={newPackingTitle}
+              onChange={(e) => setNewPackingTitle(e.target.value)}
+              placeholder="Add packing item..."
+              className="px-3 py-2 rounded-xl bg-surface-container-lowest border border-outline-variant text-xs text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40"
+            />
+            <button
+              type="submit"
+              className="px-4 py-2 rounded-xl bg-primary text-white font-bold text-xs shadow-sm hover:bg-primary-dim"
+            >
+              Add
+            </button>
+          </form>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {(trip.packingList || []).map((item) => (
+            <div
+              key={item.id}
+              onClick={() => togglePackingItem(trip.id, item.id)}
+              className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center gap-3 ${
+                item.packed
+                  ? 'bg-emerald-50/60 border-emerald-200 text-emerald-900'
+                  : 'bg-surface-container-lowest border-outline-variant/40 hover:border-primary/40 text-on-surface'
+              }`}
+            >
+              {item.packed ? (
+                <CheckSquare className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+              ) : (
+                <Square className="w-4 h-4 text-outline flex-shrink-0" />
+              )}
+              <div className="min-w-0 flex-1">
+                <span className={`text-xs font-semibold block truncate ${item.packed ? 'line-through opacity-75' : ''}`}>
+                  {item.title}
+                </span>
+                <span className="text-[10px] text-outline font-medium block uppercase tracking-wider">
+                  {item.category}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 

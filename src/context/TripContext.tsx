@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Trip, DestinationStop, Activity, ExpenseItem } from '../types';
+import { Trip, DestinationStop, Activity, ExpenseItem, PackingItem } from '../types';
 import { mockTripsList, mockDestinationsList, mockCommunityTrips } from '../data/mockData';
 
 interface TripContextType {
@@ -18,14 +18,36 @@ interface TripContextType {
   updateActivityCost: (tripId: string, stopId: string, dayNumber: number, activityId: string, newCost: number) => void;
   addExpenseToTrip: (tripId: string, expense: Omit<ExpenseItem, 'id'>) => void;
   copyCommunityTrip: (communityTripId: string) => Trip | undefined;
+  togglePackingItem: (tripId: string, itemId: string) => void;
+  addPackingItem: (tripId: string, title: string, category: PackingItem['category']) => void;
 }
 
 const TripContext = createContext<TripContextType | undefined>(undefined);
 
+const defaultPackingList: PackingItem[] = [
+  { id: 'p1', title: 'Passport & Visas', category: 'Documents', packed: true },
+  { id: 'p2', title: 'Travel Insurance Documents', category: 'Documents', packed: true },
+  { id: 'p3', title: 'Universal Power Adapter', category: 'Electronics', packed: false },
+  { id: 'p4', title: 'Camera & Charger', category: 'Electronics', packed: false },
+  { id: 'p5', title: 'Light Jacket / Layering Clothes', category: 'Clothing', packed: true },
+  { id: 'p6', title: 'Comfortable Walking Shoes', category: 'Clothing', packed: true },
+  { id: 'p7', title: 'First Aid & Prescription Meds', category: 'Essentials', packed: false },
+];
+
 export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [trips, setTrips] = useState<Trip[]>(() => {
     const saved = localStorage.getItem('globetrotter_trips');
-    return saved ? JSON.parse(saved) : mockTripsList;
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      return parsed.map((t: Trip) => ({
+        ...t,
+        packingList: t.packingList || defaultPackingList,
+      }));
+    }
+    return mockTripsList.map((t) => ({
+      ...t,
+      packingList: defaultPackingList,
+    }));
   });
 
   const [activeTripId, setActiveTripId] = useState<string | null>('trip_rajasthan');
@@ -52,6 +74,8 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
       isPublic: false,
       destinations: tripData.destinations || [],
       customExpenses: [],
+      packingList: defaultPackingList,
+      currency: 'USD',
     };
     setTrips((prev) => [newTrip, ...prev]);
     setActiveTripId(newTrip.id);
@@ -78,6 +102,11 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const newStop: DestinationStop = {
           ...destination,
           id: `stop_${Date.now()}`,
+          weatherForecast: destination.weatherForecast || {
+            temp: '22°C',
+            condition: 'Sunny',
+            icon: '☀️',
+          },
           days: [
             {
               dayNumber: 1,
@@ -223,11 +252,47 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
       isPublic: false,
       destinations: mockDestinationsList.slice(0, 2),
       customExpenses: [],
+      packingList: defaultPackingList,
+      currency: 'USD',
     };
 
     setTrips((prev) => [newTrip, ...prev]);
     setActiveTripId(newTrip.id);
     return newTrip;
+  };
+
+  const togglePackingItem = (tripId: string, itemId: string) => {
+    setTrips((prev) =>
+      prev.map((t) => {
+        if (t.id !== tripId) return t;
+        const updatedList = (t.packingList || defaultPackingList).map((item) =>
+          item.id === itemId ? { ...item, packed: !item.packed } : item
+        );
+        return { ...t, packingList: updatedList };
+      })
+    );
+  };
+
+  const addPackingItem = (
+    tripId: string,
+    title: string,
+    category: PackingItem['category']
+  ) => {
+    setTrips((prev) =>
+      prev.map((t) => {
+        if (t.id !== tripId) return t;
+        const newItem: PackingItem = {
+          id: `p_${Date.now()}`,
+          title,
+          category,
+          packed: false,
+        };
+        return {
+          ...t,
+          packingList: [...(t.packingList || defaultPackingList), newItem],
+        };
+      })
+    );
   };
 
   return (
@@ -248,6 +313,8 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
         updateActivityCost,
         addExpenseToTrip,
         copyCommunityTrip,
+        togglePackingItem,
+        addPackingItem,
       }}
     >
       {children}
