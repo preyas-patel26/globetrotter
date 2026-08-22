@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Trip, DestinationStop, Activity, ExpenseItem, PackingItem } from '../types';
-import { mockTripsList, mockDestinationsList, mockCommunityTrips } from '../data/mockData';
+import { mockDestinationsList, mockCommunityTrips } from '../data/mockData';
 
 interface TripContextType {
   trips: Trip[];
@@ -20,6 +20,9 @@ interface TripContextType {
   copyCommunityTrip: (communityTripId: string) => Trip | undefined;
   togglePackingItem: (tripId: string, itemId: string) => void;
   addPackingItem: (tripId: string, title: string, category: PackingItem['category']) => void;
+  // Admin Features
+  addAdminDestination: (newDest: Omit<DestinationStop, 'id' | 'days'>) => void;
+  updateDestinationEstCost: (destId: string, newCostPerDay: number) => void;
 }
 
 const TripContext = createContext<TripContextType | undefined>(undefined);
@@ -36,25 +39,24 @@ const defaultPackingList: PackingItem[] = [
 
 export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [trips, setTrips] = useState<Trip[]>(() => {
-    const saved = localStorage.getItem('globetrotter_trips');
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      return parsed.map((t: Trip) => ({
-        ...t,
-        packingList: t.packingList || defaultPackingList,
-      }));
-    }
-    return mockTripsList.map((t) => ({
-      ...t,
-      packingList: defaultPackingList,
-    }));
+    const saved = localStorage.getItem('globetrotter_user_trips');
+    return saved ? JSON.parse(saved) : [];
   });
 
-  const [activeTripId, setActiveTripId] = useState<string | null>('trip_rajasthan');
+  const [destinations, setDestinations] = useState<DestinationStop[]>(() => {
+    const saved = localStorage.getItem('globetrotter_master_destinations');
+    return saved ? JSON.parse(saved) : mockDestinationsList;
+  });
+
+  const [activeTripId, setActiveTripId] = useState<string | null>(null);
 
   useEffect(() => {
-    localStorage.setItem('globetrotter_trips', JSON.stringify(trips));
+    localStorage.setItem('globetrotter_user_trips', JSON.stringify(trips));
   }, [trips]);
+
+  useEffect(() => {
+    localStorage.setItem('globetrotter_master_destinations', JSON.stringify(destinations));
+  }, [destinations]);
 
   const getTrip = (id: string) => {
     return trips.find((t) => t.id === id);
@@ -63,9 +65,9 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const createTrip = (tripData: Partial<Trip>): Trip => {
     const newTrip: Trip = {
       id: `trip_${Date.now()}`,
-      userId: 'usr_001',
+      userId: 'usr_active',
       title: tripData.title || 'My Summer Adventure',
-      description: tripData.description || 'Custom planned itinerary',
+      description: tripData.description || 'Custom planned travel itinerary',
       coverImage: tripData.coverImage || 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80',
       startDate: tripData.startDate || '2024-10-15',
       endDate: tripData.endDate || '2024-10-25',
@@ -103,20 +105,20 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
           ...destination,
           id: `stop_${Date.now()}`,
           weatherForecast: destination.weatherForecast || {
-            temp: '22°C',
+            temp: '24°C',
             condition: 'Sunny',
             icon: '☀️',
           },
           days: [
             {
               dayNumber: 1,
-              date: destination.startDate,
+              date: destination.startDate || t.startDate,
               title: `Day 1: ${destination.city} Exploration`,
               activities: [],
             },
             {
               dayNumber: 2,
-              date: destination.endDate,
+              date: destination.endDate || t.endDate,
               title: `Day 2: ${destination.city} Highlights`,
               activities: [],
             },
@@ -241,7 +243,7 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const newTrip: Trip = {
       id: `trip_copied_${Date.now()}`,
-      userId: 'usr_001',
+      userId: 'usr_active',
       title: `${found.title} (Copy)`,
       description: found.subtitle,
       coverImage: found.coverImage,
@@ -250,7 +252,7 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
       budget: parseInt(found.estBudget.replace(/[^0-9]/g, '')) || 3500,
       status: 'Upcoming',
       isPublic: false,
-      destinations: mockDestinationsList.slice(0, 2),
+      destinations: destinations.slice(0, 2),
       customExpenses: [],
       packingList: defaultPackingList,
       currency: 'USD',
@@ -295,11 +297,28 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
     );
   };
 
+  // ADMIN FEATURE: Add new destination/place to the global platform dataset
+  const addAdminDestination = (newDest: Omit<DestinationStop, 'id' | 'days'>) => {
+    const createdDest: DestinationStop = {
+      ...newDest,
+      id: `dest_${Date.now()}`,
+      days: [],
+    };
+    setDestinations((prev) => [createdDest, ...prev]);
+  };
+
+  // ADMIN FEATURE: Update approximate cost per day for a destination
+  const updateDestinationEstCost = (destId: string, newCostPerDay: number) => {
+    setDestinations((prev) =>
+      prev.map((d) => (d.id === destId ? { ...d, estCostPerDay: newCostPerDay } : d))
+    );
+  };
+
   return (
     <TripContext.Provider
       value={{
         trips,
-        destinations: mockDestinationsList,
+        destinations,
         activeTripId,
         setActiveTripId,
         getTrip,
@@ -315,6 +334,8 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
         copyCommunityTrip,
         togglePackingItem,
         addPackingItem,
+        addAdminDestination,
+        updateDestinationEstCost,
       }}
     >
       {children}

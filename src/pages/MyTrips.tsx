@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Filter, Calendar as CalendarIcon, MapPin, Trash2, Edit3, Eye } from 'lucide-react';
+import { Plus, Filter, Calendar as CalendarIcon, Trash2, Edit3, Eye, Compass } from 'lucide-react';
 import { useTrips } from '../context/TripContext';
 import { Modal } from '../components/common/Modal';
 
@@ -79,7 +79,7 @@ export const MyTrips: React.FC = () => {
         </div>
       </div>
 
-      {/* Trips Grid */}
+      {/* Trips Grid or Clean Empty State */}
       {filteredTrips.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
           {filteredTrips.map((trip) => {
@@ -181,15 +181,25 @@ export const MyTrips: React.FC = () => {
           })}
         </div>
       ) : (
-        <div className="glass-card rounded-3xl p-12 text-center text-outline">
-          <p className="font-headline font-bold text-base text-on-surface">No trips found matching your filters.</p>
-          <p className="text-xs text-outline mt-1">Try resetting search query or create a new trip.</p>
-          <button
-            onClick={() => navigate('/trips/create')}
-            className="mt-4 py-2.5 px-5 rounded-xl bg-primary text-on-primary font-bold text-xs"
-          >
-            Plan New Trip
-          </button>
+        /* CLEAN NEW USER EMPTY STATE */
+        <div className="glass-card-elevated rounded-3xl p-12 text-center text-outline space-y-3">
+          <div className="w-16 h-16 rounded-full bg-primary-container/40 flex items-center justify-center text-primary mx-auto">
+            <Compass className="w-8 h-8 text-primary" />
+          </div>
+          <h3 className="font-headline font-bold text-lg text-on-surface">
+            Your next adventure starts here!
+          </h3>
+          <p className="text-xs text-outline max-w-sm mx-auto">
+            You don't have any trips planned yet. Start by creating a personalized multi-city itinerary or explore community trips.
+          </p>
+          <div className="pt-2">
+            <button
+              onClick={() => navigate('/trips/create')}
+              className="py-3 px-6 rounded-2xl bg-primary text-on-primary font-bold text-xs shadow-md hover:bg-primary-dim transition-all"
+            >
+              Plan Your First Trip
+            </button>
+          </div>
         </div>
       )}
 
