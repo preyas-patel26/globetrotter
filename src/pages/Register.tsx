@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Camera, ArrowRight, Compass } from 'lucide-react';
+import { Camera, ArrowRight, Compass, Lock } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export const Register: React.FC = () => {
@@ -11,11 +11,15 @@ export const Register: React.FC = () => {
     firstName: '',
     lastName: '',
     email: '',
+    password: '',
+    confirmPassword: '',
     phone: '',
     city: '',
     country: 'United States',
     additionalInfo: '',
   });
+
+  const [error, setError] = useState('');
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -25,8 +29,38 @@ export const Register: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    register(formData);
-    navigate('/dashboard');
+    setError('');
+
+    if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim()) {
+      setError('Please complete all required name and email fields.');
+      return;
+    }
+
+    if (!formData.password || formData.password.length < 6) {
+      setError('Password must be at least 6 characters long.');
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match. Please re-enter your password.');
+      return;
+    }
+
+    const success = register({
+      firstName: formData.firstName.trim(),
+      lastName: formData.lastName.trim(),
+      email: formData.email.trim(),
+      password: formData.password,
+      phone: formData.phone.trim(),
+      city: formData.city.trim(),
+      country: formData.country,
+    });
+
+    if (success) {
+      navigate('/dashboard');
+    } else {
+      setError('An account with this email address already exists. Please login instead.');
+    }
   };
 
   return (
@@ -55,7 +89,7 @@ export const Register: React.FC = () => {
             Begin Your Adventure.
           </h2>
           <p className="text-white/90 font-light text-base md:text-lg leading-relaxed">
-            Join the world's most premium travel network. Personalize multi-city journeys, collaborate with fellow explorers, and manage budgets in style.
+            Join the world's most premium travel network. Create your account, personalize multi-city journeys, and manage budgets in style.
           </p>
         </div>
       </div>
@@ -63,22 +97,25 @@ export const Register: React.FC = () => {
       {/* Right 55% - Register Form Glass Card */}
       <div className="w-full md:w-7/12 flex items-center justify-center p-6 md:p-10 bg-gradient-to-br from-surface via-background to-surface-container-low overflow-y-auto">
         <div className="w-full max-w-xl glass-card-elevated rounded-3xl p-8 md:p-10 shadow-2xl border border-outline-variant/30 my-6">
-          <div className="text-center mb-8">
+          <div className="text-center mb-6">
             <h2 className="font-headline font-extrabold text-2xl text-on-surface">Create Account</h2>
-            <p className="text-outline text-sm mt-1">Start your journey today.</p>
+            <p className="text-outline text-sm mt-1">Start your travel journey today.</p>
           </div>
 
+          {error && (
+            <div className="mb-6 p-3.5 rounded-xl bg-error-container/40 border border-error/30 text-error text-xs font-medium">
+              {error}
+            </div>
+          )}
+
           {/* Profile Photo Upload Placeholder */}
-          <div className="flex flex-col items-center justify-center mb-8">
+          <div className="flex flex-col items-center justify-center mb-6">
             <div className="relative group cursor-pointer">
-              <div className="w-20 h-20 rounded-full bg-surface-container-high flex items-center justify-center text-outline border-2 border-dashed border-outline-variant group-hover:border-primary transition-colors">
-                <Camera className="w-8 h-8 text-outline group-hover:text-primary transition-colors" />
-              </div>
-              <div className="absolute -bottom-1 -right-1 bg-primary text-white p-1.5 rounded-full shadow-md">
-                <span className="text-[10px] font-bold">+</span>
+              <div className="w-18 h-18 rounded-full bg-surface-container-high flex items-center justify-center text-outline border-2 border-dashed border-outline-variant group-hover:border-primary transition-colors p-4">
+                <Camera className="w-7 h-7 text-outline group-hover:text-primary transition-colors" />
               </div>
             </div>
-            <span className="text-xs text-outline mt-2 font-medium">Upload Profile Photo</span>
+            <span className="text-xs text-outline mt-1.5 font-medium">Upload Profile Photo</span>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -86,7 +123,7 @@ export const Register: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-semibold text-on-surface uppercase tracking-wider mb-1.5">
-                  First Name
+                  First Name *
                 </label>
                 <input
                   type="text"
@@ -100,7 +137,7 @@ export const Register: React.FC = () => {
               </div>
               <div>
                 <label className="block text-xs font-semibold text-on-surface uppercase tracking-wider mb-1.5">
-                  Last Name
+                  Last Name *
                 </label>
                 <input
                   type="text"
@@ -117,7 +154,7 @@ export const Register: React.FC = () => {
             {/* Email Address */}
             <div>
               <label className="block text-xs font-semibold text-on-surface uppercase tracking-wider mb-1.5">
-                Email Address
+                Email Address *
               </label>
               <input
                 type="email"
@@ -128,6 +165,38 @@ export const Register: React.FC = () => {
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all"
                 required
               />
+            </div>
+
+            {/* Password & Confirm Password */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-semibold text-on-surface uppercase tracking-wider mb-1.5">
+                  Password *
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="At least 6 characters"
+                  className="w-full px-4 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-on-surface uppercase tracking-wider mb-1.5">
+                  Confirm Password *
+                </label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="Re-enter password"
+                  className="w-full px-4 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40"
+                  required
+                />
+              </div>
             </div>
 
             {/* Phone Number & City */}
@@ -142,7 +211,7 @@ export const Register: React.FC = () => {
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="+1 (555) 000-0000"
-                  className="w-full px-4 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all"
+                  className="w-full px-4 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40"
                 />
               </div>
               <div>
@@ -155,7 +224,7 @@ export const Register: React.FC = () => {
                   value={formData.city}
                   onChange={handleChange}
                   placeholder="Seattle"
-                  className="w-full px-4 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all"
+                  className="w-full px-4 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40"
                 />
               </div>
             </div>
@@ -169,7 +238,7 @@ export const Register: React.FC = () => {
                 name="country"
                 value={formData.country}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all"
+                className="w-full px-4 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40"
               >
                 <option value="United States">United States</option>
                 <option value="India">India</option>
@@ -189,9 +258,9 @@ export const Register: React.FC = () => {
                 name="additionalInfo"
                 value={formData.additionalInfo}
                 onChange={handleChange}
-                rows={3}
+                rows={2}
                 placeholder="Tell us about your travel preferences..."
-                className="w-full px-4 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all resize-none"
+                className="w-full px-4 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40 resize-none"
               />
             </div>
 
@@ -200,7 +269,7 @@ export const Register: React.FC = () => {
               type="submit"
               className="w-full py-3.5 rounded-xl bg-primary text-on-primary font-bold text-sm shadow-md hover:bg-primary-dim hover:shadow-lg transition-all active:scale-[0.99] flex items-center justify-center gap-2 mt-4"
             >
-              <span>Register User</span>
+              <span>Register Account</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
