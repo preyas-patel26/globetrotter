@@ -11,10 +11,11 @@ node_modules/
 jspm_packages/
 web_modules/
 
-# Production build outputs
+# Production build & cache outputs
 dist/
 build/
 out/
+.vite/
 
 # Environment files
 .env
